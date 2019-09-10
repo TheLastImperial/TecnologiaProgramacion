@@ -33,9 +33,15 @@ public class Hand {
                 int aux = points.get(i);
                 points.set(i, aux);
             }
-
-            points.removeIf(ele -> ele > 21);
         }
         return points;
+    }
+    public Card getCard(int index){
+        return cards.get(index);
+    }
+    public boolean isBlackJack(){
+        return cards.size() == 2 &&
+            (cards.get(0).getValue() == CardValue.AS || cards.get(0).getValue().getCardValue() == 10) &&
+            (cards.get(1).getValue() == CardValue.AS || cards.get(1).getValue().getCardValue() == 10);
     }
 }
