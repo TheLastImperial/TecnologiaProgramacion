@@ -31,9 +31,7 @@ public class Deck {
     public void shuffle () {
         ArrayList<Card> cardsShuffled = new ArrayList<Card>();
         Random rand = new Random();
-        System.out.println("Cards tiene " + cards.size());
         while(cardsShuffled.size() < 47) {
-            System.out.println("Cards tiene " + cards.size());
             Card randomItem = cards.get(rand.nextInt(cards.size() - 1));
             cardsShuffled.add(randomItem);
             cards.remove(randomItem);
