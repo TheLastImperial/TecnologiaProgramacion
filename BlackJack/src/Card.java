@@ -9,7 +9,7 @@ public class Card {
 		this.visible = true;
 	}
 	public String toString(){
-		String result = "";
+		String result = "-----";
 		if(this.visible)
 			result = type + "-" + value;
 		return result;

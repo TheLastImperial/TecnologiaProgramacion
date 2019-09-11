@@ -1,7 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Hand {
     private ArrayList<Card> cards;
+    public Hand(){
+        cards = new ArrayList<Card>();
+    }
     public String toString(){
         String result = "";
         for(Card c:cards) {
@@ -30,11 +34,20 @@ public class Hand {
         else{
             points.addAll(auxList);
             for (int i = 0; i< points.size();i++){
-                int aux = points.get(i);
+                int aux = points.get(i) + tot;
                 points.set(i, aux);
             }
         }
         return points;
+    }
+    public int maxPoint(){
+        ArrayList<Integer> points = getPoints();
+        points.removeIf(ele-> ele> 21);
+        Collections.sort(points);
+        int result = 22;
+        if(!points.isEmpty())
+            result = points.get(points.size()-1);
+        return result;
     }
     public Card getCard(int index){
         return cards.get(index);
