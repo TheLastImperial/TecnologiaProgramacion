@@ -11,7 +11,7 @@ public class Card {
 	public String toString(){
 		String result = "-----";
 		if(this.visible)
-			result = type + "-" + value;
+			result =  value + "-" + type;
 		return result;
 	}
 	public CardValue getValue(){

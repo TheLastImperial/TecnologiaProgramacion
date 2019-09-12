@@ -24,6 +24,13 @@ public class Croupier extends Person {
         lastCard.setVisible(false);
     }
 
+    public Deck getDeck(){
+        return deck;
+    }
+
+    public void resetDeck(){
+        deck = new Deck(false);
+    }
     /*
      * El croupier toma cartas hasta que tenga mas
      * de 17 y menos de 21 o que se pase de 21.

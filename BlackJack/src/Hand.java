@@ -49,6 +49,13 @@ public class Hand {
             result = points.get(points.size()-1);
         return result;
     }
+
+    public boolean canPlay(){
+        ArrayList<Integer>  point = getPoints();
+        point.removeIf(ele -> ele > 21);
+        return !point.isEmpty();
+    }
+
     public Card getCard(int index){
         return cards.get(index);
     }
@@ -56,5 +63,9 @@ public class Hand {
         return cards.size() == 2 &&
             (cards.get(0).getValue() == CardValue.AS || cards.get(0).getValue().getCardValue() == 10) &&
             (cards.get(1).getValue() == CardValue.AS || cards.get(1).getValue().getCardValue() == 10);
+    }
+
+    public void resetHand(){
+        cards = new ArrayList<Card>();
     }
 }

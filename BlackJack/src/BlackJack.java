@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +11,6 @@ public class BlackJack {
         scanner = new Scanner(System.in);
         croupier = new Croupier();
         createPlayers();
-        initGame();
         play();
     }
     public void initGame(){
@@ -29,6 +29,9 @@ public class BlackJack {
                 if(p.getCredit() == 0){
                     System.out.println(p.getName() + " no tienes saldo. Bye");
                     players.remove(p);
+                    if(players.isEmpty()){
+                        return;
+                    }
                     break;
                 }
                 if(!p.bet(bet)){
@@ -39,21 +42,49 @@ public class BlackJack {
                 }
             }
         }
+
+    }
+    public void play() {
+        boolean flag = true;
+        while(flag){
+            initGame();
+            if(players.isEmpty()){
+                System.out.println("Ya no hay juagadores con credito. Se termina el juego");
+                return;
+            }
+            scanner.nextLine();
+            distributeCards();
+            System.out.println("_____________________Siguiente juego________________________");
+        };
+    }
+
+    public void distributeCards(){
+        croupier.getDeck().shuffle();
         croupier.firstHand(players);
         System.out.println("------Primeras cartas-----------");
         System.out.println(printAll(false));
-        System.out.println("--------------------------------");
+        if(croupier.getHand().isBlackJack()){
+            whoWin();
+            return;
+        }
         for (Player p: players){
             int opt = 0;
             boolean flag = true;
             while(flag){
+                System.out.println(croupier);
                 System.out.println(p +" "+ p.getHand().getPoints());
-                System.out.println(p.getName() + " te plantas(1) o pides otra carta(2) ?");
+                if(!p.getHand().canPlay()){
+                    System.out.println(p.getName() + " te pasaste de 21.");
+                    flag = false;
+                    continue;
+                }
+                System.out.print(p.getName() + " te plantas(1) o pides otra carta(2) ?");
                 try{
                     opt = scanner.nextInt();
                 }catch(Exception e){
                     opt = 0;
                 }
+                System.out.println("__________________________________________________________");
                 switch(opt){
                     case 1:
                         flag = false;
@@ -68,9 +99,33 @@ public class BlackJack {
             }
         }
         croupier.playCroupier();
-        System.out.println(printAll(true));
+        whoWin();
+        croupier.resetDeck();
+        croupier.getHand().resetHand();
     }
-    public void play(){
+    /*
+    * Este metodo se encarga de ver quienes
+    * son los ganadores y pagar las apuestas.
+    * */
+    private void whoWin(){
+        System.out.println(printAll(true));
+        int croupierPoint = croupier.getHand().maxPoint();
+        // Establece quien gana por cada jugador.
+        for(Player p: players){
+            int pPoint = p.getHand().maxPoint();
+            // Croupier gana
+            if((croupierPoint <= 21 &&  croupierPoint > pPoint) || (croupierPoint <= 21 && pPoint>21)){
+                System.out.println("Croupier le gana a " + p.getName());
+                p.lost();
+                // Gana jugador
+            }else if((pPoint<= 21 && croupierPoint<= 21 && pPoint > croupierPoint) || ( croupierPoint> 21 && pPoint <= 21)){
+                System.out.println(p.getName() + " le gana al croupier");
+                p.win();
+            }else {
+                System.out.println("Croupier empata con " + p.getName());
+                p.draw();
+            }
+        }
     }
     private void createPlayers(){
         int numPlayers = 0;
