@@ -9,14 +9,16 @@ public class Player extends Person{
     public void win(){
         credit += (bet*2);
         bet = 0;
+        getHand().resetHand();
     }
     public void lost(){
-        credit -= bet;
         bet = 0;
+        getHand().resetHand();
     }
     public void draw(){
         credit =+ bet;
         bet=0;
+        getHand().resetHand();
     }
     public boolean bet(int quantity){
         boolean flag = false;
@@ -26,6 +28,10 @@ public class Player extends Person{
             flag = true;
         }
         return flag;
+    }
+
+    public int getBet() {
+        return bet;
     }
 
     public int getCredit(){
