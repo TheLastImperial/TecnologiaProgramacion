@@ -76,4 +76,8 @@ public class Hand {
     public void resetHand(){
         cards = new ArrayList<Card>();
     }
+
+    public int handLength() {
+        return cards.size();
+    }
 }

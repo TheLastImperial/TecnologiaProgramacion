@@ -16,7 +16,7 @@ public class Player extends Person{
         //getHand().resetHand();
     }
     public void draw(){
-        credit =+ bet;
+        credit += bet;
         bet=0;
         //getHand().resetHand();
     }
