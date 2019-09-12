@@ -35,7 +35,7 @@ public class Croupier extends Person {
      * El croupier toma cartas hasta que tenga mas
      * de 17 y menos de 21 o que se pase de 21.
      * */
-    public void playCroupier() {
+    public void playCroupier2() {
         Card lastCard = getHand().getCard(1);
         lastCard.setVisible(true);
         if (!getHand().isBlackJack()) {
@@ -66,6 +66,22 @@ public class Croupier extends Person {
                     }
                 }
             }
+        }
+    }
+
+    public void playCroupier() {
+        Card lastCard = getHand().getCard(1);
+        lastCard.setVisible(true);
+        if (!getHand().isBlackJack()) {
+            while(true){
+                int points = getHand().maxPoint();
+                if (points < 17 && !(points > 21)) {
+                    distribute(this);
+                } else {
+                    break;
+                }
+            }
+
         }
     }
 }

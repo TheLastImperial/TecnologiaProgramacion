@@ -14,9 +14,10 @@ public class BlackJack {
         play();
     }
     public void initGame(){
-        int bet = 0;
         // Obtenemos las apuestas de los jugadores.
         for (Player p: players){
+            p.getHand().resetHand();
+            int bet = 0;
             System.out.print(p.getName() + ". Tienes $"+ p.getCredit() + " Cuanto quieres apostar ?");
             while (true){
                 try{
@@ -28,7 +29,6 @@ public class BlackJack {
                 }
                 if(p.getCredit() == 0){
                     System.out.println(p.getName() + " no tienes saldo. Bye");
-                    players.remove(p);
                     if(players.isEmpty()){
                         return;
                     }
@@ -37,12 +37,13 @@ public class BlackJack {
                 if(!p.bet(bet)){
                     System.out.println(p.getName() + " no tienes suficiente credito para aportar " + bet + ". Intenta de nuevo.");
                     scanner.nextLine();
+                    continue;
                 }else{
                     break;
                 }
             }
         }
-
+        players.removeIf(ele -> ele.getCredit() == 0 && ele.getBet()==0);
     }
     public void play() {
         boolean flag = true;
@@ -64,7 +65,10 @@ public class BlackJack {
         System.out.println("------Primeras cartas-----------");
         System.out.println(printAll(false));
         if(croupier.getHand().isBlackJack()){
+            System.out.println("El croupier tiene BlackJack");
+            System.out.println(printAll(true));
             whoWin();
+            System.out.println("____________________________________________________");
             return;
         }
         for (Player p: players){
@@ -72,10 +76,12 @@ public class BlackJack {
             boolean flag = true;
             while(flag){
                 System.out.println(croupier);
-                System.out.println(p +" "+ p.getHand().getPoints());
+                System.out.println(p +" "+ p.getHand().maxPoint());
                 if(!p.getHand().canPlay()){
                     System.out.println(p.getName() + " te pasaste de 21.");
+                    p.lost();
                     flag = false;
+                    System.out.println("____________________________________________");
                     continue;
                 }
                 System.out.print(p.getName() + " te plantas(1) o pides otra carta(2) ?");
@@ -87,6 +93,10 @@ public class BlackJack {
                 System.out.println("__________________________________________________________");
                 switch(opt){
                     case 1:
+                        if(p.getHand().maxPoint() > 21){
+                            System.out.println(p.getName() + " pierdes.");
+                            p.lost();
+                        }
                         flag = false;
                         break;
                     case 2:
@@ -99,9 +109,30 @@ public class BlackJack {
             }
         }
         croupier.playCroupier();
-        whoWin();
+        //whoWin();
+        System.out.println(printAll(true));
+        whoWin2();
         croupier.resetDeck();
         croupier.getHand().resetHand();
+    }
+    private void whoWin2(){
+        int cPoint = croupier.getHand().maxPoint();
+        for (Player p: players) {
+            int bet = p.getBet();
+            if( bet == 0)
+                continue;
+            int pPoint = p.getHand().maxPoint();
+            if((pPoint > cPoint) || (cPoint > 21 && pPoint <= 21)){
+                System.out.println(p.getName() + " le gana al croupier");
+                p.win();
+            }else if(cPoint > pPoint){
+                System.out.println("Croupier le gana a " + p.getName());
+                p.lost();
+            }else {
+                System.out.println("Croupier empata con " + p.getName());
+                p.draw();
+            }
+        }
     }
     /*
     * Este metodo se encarga de ver quienes
@@ -181,11 +212,11 @@ public class BlackJack {
     private String printAll(boolean showCroupier){
         String result = croupier.toString();
         if(showCroupier)
-            result += " " +croupier.getHand().getPoints() + "\n";
+            result += " " +croupier.getHand().maxPoint() + "\n";
         else
             result += "\n";
         for (Player p: players)
-            result += p.toString() + p.getHand().getPoints() + "\n";
+            result += p.toString() + p.getHand().maxPoint() + "\n";
         return result;
     }
 }

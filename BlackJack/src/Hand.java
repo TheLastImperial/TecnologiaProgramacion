@@ -41,13 +41,23 @@ public class Hand {
         return points;
     }
     public int maxPoint(){
-        ArrayList<Integer> points = getPoints();
-        points.removeIf(ele-> ele> 21);
-        Collections.sort(points);
-        int result = 22;
-        if(!points.isEmpty())
-            result = points.get(points.size()-1);
-        return result;
+        int ases = 0;
+        int points = 0;
+        for (Card card: cards) {
+            if(card.getValue() == CardValue.AS){
+                ases ++;
+            }else{
+                points += card.getValue().getCardValue();
+            }
+        }
+        for(int i = 0; i < ases; i++){
+            if(points > 10){
+                points++;
+            }else{
+                points += 11;
+            }
+        }
+        return points;
     }
 
     public boolean canPlay(){
@@ -60,9 +70,7 @@ public class Hand {
         return cards.get(index);
     }
     public boolean isBlackJack(){
-        return cards.size() == 2 &&
-            (cards.get(0).getValue() == CardValue.AS || cards.get(0).getValue().getCardValue() == 10) &&
-            (cards.get(1).getValue() == CardValue.AS || cards.get(1).getValue().getCardValue() == 10);
+        return maxPoint() == 21;
     }
 
     public void resetHand(){
