@@ -18,28 +18,30 @@ public class BlackJack {
         for (Player p: players){
             p.getHand().resetHand();
             int bet = 0;
-            System.out.print(p.getName() + ". Tienes $"+ p.getCredit() + " Cuanto quieres apostar ?");
-            while (true){
-                try{
-                    bet = scanner.nextInt();
-                }catch(Exception e){
-                    System.out.println("Debe ingresar una cantidad");
-                    scanner.nextLine();
-                    continue;
-                }
-                if(p.getCredit() == 0){
-                    System.out.println(p.getName() + " no tienes saldo. Bye");
-                    if(players.isEmpty()){
-                        return;
+            if(p.getCredit() != 0) {
+                System.out.print(p.getName() + ". Tienes $"+ p.getCredit() + " Cuanto quieres apostar ?");
+                while (true){
+                    try{
+                        bet = scanner.nextInt();
+                    }catch(Exception e){
+                        System.out.println("Debe ingresar una cantidad");
+                        scanner.nextLine();
+                        continue;
                     }
-                    break;
-                }
-                if(!p.bet(bet)){
-                    System.out.println(p.getName() + " no tienes suficiente credito para aportar " + bet + ". Intenta de nuevo.");
-                    scanner.nextLine();
-                    continue;
-                }else{
-                    break;
+                    if(p.getCredit() == 0){
+                        System.out.println(p.getName() + " no tienes saldo. Bye");
+                        if(players.isEmpty()){
+                            return;
+                        }
+                        break;
+                    }
+                    if(!p.bet(bet)){
+                        System.out.println(p.getName() + " no tienes suficiente credito para aportar " + bet + ". Intenta de nuevo.");
+                        scanner.nextLine();
+                        continue;
+                    }else{
+                        break;
+                    }
                 }
             }
         }
@@ -60,6 +62,7 @@ public class BlackJack {
     }
 
     public void distributeCards(){
+        croupier.resetDeck();
         croupier.getDeck().shuffle();
         croupier.firstHand(players);
         System.out.println("------Primeras cartas-----------");
@@ -101,6 +104,13 @@ public class BlackJack {
                         break;
                     case 2:
                         croupier.distribute(p);
+                        if(p.getHand().handLength() == 5 && p.getHand().maxPoint() <= 21){
+                            System.out.println("Tu mano es: " + p.getHand().toString());
+                            System.out.println(p.getName() + " has ganado por conseguir 5 cartas sin pasarte del puntaje.");
+                            System.out.println(" ");
+                            p.win();
+                            flag = false;
+                        }
                         break;
                     default:
                         System.out.println("Opcion no valida");
@@ -112,7 +122,6 @@ public class BlackJack {
         //whoWin();
         System.out.println(printAll(true));
         whoWin2();
-        croupier.resetDeck();
         croupier.getHand().resetHand();
     }
     private void whoWin2(){
