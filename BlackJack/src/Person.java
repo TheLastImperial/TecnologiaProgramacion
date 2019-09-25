@@ -11,4 +11,8 @@ public class Person {
     public String getName(){
         return this.name;
     }
+    public String toString(){
+        return name + " " + hand.toString();
+    }
+
 }
