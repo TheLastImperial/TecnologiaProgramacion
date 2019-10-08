@@ -40,7 +40,7 @@ public class Graph {
         // Se obtienen los nodos origen y destino.
         Node origin = nodes.get(left);
         Node destiny = nodes.get(right);
-        path = new ArrayList<Node>();
+        this.path = new ArrayList<Node>();
         path.add(origin);
         path.add(destiny);
         foundPath = false;
@@ -63,18 +63,21 @@ public class Graph {
         ArrayList<Node> result = pathWay(origin, destiny);
         if(foundPath)
             path = result;
+
         System.out.println(pathToString());
     }
 
     public ArrayList<Node> pathWay(Node origen, Node destiny){
         ArrayList<Node> way = new ArrayList<Node>();
         ArrayList<Node> visited = new ArrayList<Node>();
+        ArrayList<Node> path = new ArrayList<Node>();
         way.add(origen);
         visited.add(origen);
         // Se reaaliza un ciclo hasta que no hayan mas nodos.
         while(!way.isEmpty()) {
             int index = way.size() -1;
             Node node = way.get(index);
+            way.remove(index);
             path.add(node);
             // En caso de encontrar ell destino. Se termina la ejecucion del while.
             if(destiny.equals(node)){
@@ -85,7 +88,10 @@ public class Graph {
             for (Node n : destinities)
                 if(!visited.contains(n)){
                     visited.add(n);
-                    way.add(n);
+                    if(way.isEmpty())
+                        way.add(n);
+                    else
+                        way.set(0, n);
                 }
         }
         return path;
