@@ -1,14 +1,11 @@
 package Redes;
 
-import com.sun.source.tree.SwitchTree;
-
-import javax.management.monitor.CounterMonitorMBean;
-
 public enum Command {
     CREATE_RIGHT("->"),
     CREATE_LEFT("<-"),
     ASK_RIGHT("=>"),
-    ASK_LEFT("<=");
+    ASK_LEFT("<="),
+    DELETE("-");
     private final String command;
 
     Command(String command){
@@ -29,6 +26,8 @@ public enum Command {
             command = Command.ASK_LEFT;
         else if(com.equals(Command.ASK_RIGHT.getCommand()))
             command = Command.ASK_RIGHT;
+        else if(com.equals(Command.DELETE.getCommand()))
+            command = Command.DELETE;
         else
             command = null;
 

@@ -28,7 +28,7 @@ public class NetCommand {
         matcher.find();
         this.rightCommand = matcher.group().replaceAll(REGEX_END_COMMAND, "");
 
-        pattern = Pattern.compile(REGEX_COMMAND);
+        pattern = Pattern.compile(REGEX_END_COMMAND);
         matcher = pattern.matcher(this.commandString);
         matcher.find();
         isQuestion = matcher.group().equals("?");
@@ -42,10 +42,26 @@ public class NetCommand {
     }
 
     public String toString(){
-        String result = commandString + "\n";
-        result += leftCommand + "\n";
-        result += rightCommand + "\n";
-        result += command;
-        return result;
+        return commandString;
+    }
+
+    public String getCommandString() {
+        return commandString;
+    }
+
+    public boolean isQuestion() {
+        return isQuestion;
+    }
+
+    public String getLeftCommand() {
+        return leftCommand;
+    }
+
+    public String getRightCommand() {
+        return rightCommand;
+    }
+
+    public Command getCommand() {
+        return command;
     }
 }

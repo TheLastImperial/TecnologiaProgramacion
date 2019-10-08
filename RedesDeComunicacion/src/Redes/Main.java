@@ -6,7 +6,33 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    private static Graph graph;
     public static void main(String args[]){
+        graph = new Graph();
+        //String path = readPathFromUser();
+        String path = "/home/imperial/Documents/MCC/TecProg/TecnologiaProgramacion/RedesDeComunicacion/input";
+        ArrayList<NetCommand> commands = ReadFile.getCommands(path);
+        for (NetCommand com: commands)
+            executeCommand(com);
+    }
+    private static void executeCommand(NetCommand com){
+        if(!com.isQuestion()){
+            graph.addNode(com.getLeftCommand());
+            graph.addNode(com.getRightCommand());
+        }
+        if(com.getCommand() == Command.CREATE_RIGHT)
+            graph.addEdge(com.getLeftCommand(), com.getRightCommand());
+        else if(com.getCommand() == Command.CREATE_LEFT)
+            graph.addEdge(com.getRightCommand(), com.getLeftCommand());
+        else if(com.getCommand() == Command.DELETE){
+            graph.deleteEdge(com.getLeftCommand(), com.getRightCommand());
+        }else if(com.getCommand() == Command.ASK_RIGHT){
+            graph.searchPath(com.getLeftCommand(), com.getRightCommand());
+        }else if(com.getCommand() == Command.ASK_LEFT){
+            graph.searchPath(com.getRightCommand(), com.getLeftCommand());
+        }
+    }
+    public static String readPathFromUser(){
         Scanner scanner = new Scanner(System.in);
         String path = Paths.get(".").toAbsolutePath().normalize().toString() + "/input";
         System.out.println("Se buscara un archivo en la ruta: " + path);
@@ -26,9 +52,6 @@ public class Main {
                 }
             }
         }
-
-        ArrayList<NetCommand> commands = ReadFile.getCommands(path);
-        for (NetCommand com: commands)
-            System.out.println(com);
+        return path;
     }
 }
