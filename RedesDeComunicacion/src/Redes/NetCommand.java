@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NetCommand {
-    private static final String REGEX_COMMAND = "([^<]-[^>])|(->|<-|=>|<=)";
-    private static final String REGEX_LEFT = "([a-zA-Z])([a-zA-Z0-9]{0,14})(([^<]-[^>])|(->|<-|=>|<=))";
+    private static final String REGEX_COMMAND = "(->|<-|=>|<=|-)";
+    private static final String REGEX_LEFT = "([a-zA-Z])([a-zA-Z0-9]{0,14})(->|<-|=>|<=|-)";
     private static final String REGEX_RIGHT = "([a-zA-Z])([a-zA-Z0-9]{0,14})(\\.|\\?)";
     private static final String REGEX_END_COMMAND = "(\\.|\\?)";
 
@@ -37,7 +37,6 @@ public class NetCommand {
         matcher = pattern.matcher(this.commandString);
         matcher.find();
         String auxCom = matcher.group();
-
         command = Command.commandByString(auxCom);
     }
 

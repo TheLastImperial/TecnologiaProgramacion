@@ -10,7 +10,7 @@ public class Main {
     public static void main(String args[]){
         graph = new Graph();
         //String path = readPathFromUser();
-        String path = "/home/imperial/Documents/MCC/TecProg/TecnologiaProgramacion/RedesDeComunicacion/input";
+        String path = "D:\\RImperialRojo\\Maestria\\Semestre001\\TecProg\\projects\\RedesDeComunicacion\\input";
         ArrayList<NetCommand> commands = ReadFile.getCommands(path);
         for (NetCommand com: commands)
             executeCommand(com);
