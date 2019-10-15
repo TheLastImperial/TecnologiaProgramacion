@@ -9,8 +9,7 @@ public class Main {
     private static Graph graph;
     public static void main(String args[]){
         graph = new Graph();
-        //String path = readPathFromUser();
-        String path = "D:\\RImperialRojo\\Maestria\\Semestre001\\TecProg\\projects\\RedesDeComunicacion\\input";
+        String path = readPathFromUser();
         ArrayList<NetCommand> commands = ReadFile.getCommands(path);
         for (NetCommand com: commands)
             executeCommand(com);
