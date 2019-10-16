@@ -1,13 +1,14 @@
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String []args){
         String path = readPathFromUser("input");
-        Graph graph = FileHelper.createNode(path);
+        Graph graph = FileHelper.createGraph(path);
         path = readPathFromUser("commands");
-
+        ArrayList<FriendCommand> commands = FileHelper.getCommands(path);
     }
 
     public static String readPathFromUser(String opt){
