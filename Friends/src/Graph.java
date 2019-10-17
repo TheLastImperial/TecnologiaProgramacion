@@ -25,14 +25,65 @@ public class Graph {
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
+    public void addEdge(int left, int right) {
+        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        Node leftNode = nodeList.get(left);
+        Node rightNode = nodeList.get(right);
+        leftNode.addEdge(rightNode);
+        rightNode.addEdge(leftNode);
+    }
     /*
      * Si existe un vertice lo elimina.
      * */
     public void deleteEdge(Node left, Node right) {
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
+        if(leftNode == null || right == null)
+            return;
         leftNode.deleteEdge(rightNode);
         rightNode.deleteEdge(leftNode);
+    }
+
+    public void deleteEdge(int left, int right) {
+        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        Node leftNode = nodeList.get(left);
+        Node rightNode = nodeList.get(right);
+        leftNode.deleteEdge(rightNode);
+        rightNode.deleteEdge(leftNode);
+    }
+
+    public void hasNode(Node left, Node right){
+        Node leftNode = nodes.get(left.getKey());
+        Node rightNode = nodes.get(right.getKey());
+        if(leftNode == null || right == null){
+            System.out.println("false");
+            return;
+        }
+        if(leftNode.hasDestiny(rightNode))
+            System.out.println("true");
+        else
+            System.out.println("false");
+    }
+
+    public void hasNode(int left, int right){
+        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        Node leftNode = nodeList.get(left);
+        Node rightNode = nodeList.get(right);
+        if(leftNode.hasDestiny(rightNode))
+            System.out.println("true");
+        else
+            System.out.println("false");
+    }
+
+    public void searchLevel(Node left, Node right){
+        Node leftNode = nodes.get(left.getKey());
+        Node rightNode = nodes.get(right.getKey());
+    }
+
+    public void searchLevel(int left, int right){
+        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        Node leftNode = nodeList.get(left);
+        Node rightNode = nodeList.get(right);
     }
 
     /*

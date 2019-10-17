@@ -30,7 +30,7 @@ public class Node {
     }
 
     public boolean hasDestiny(Node node){
-        return edges.containsKey(node.getName());
+        return edges.containsKey(node.getKey());
     }
 
     public String getName(){

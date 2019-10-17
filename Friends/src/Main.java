@@ -4,11 +4,35 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    private static Graph graph;
+
     public static void main(String []args){
         String path = readPathFromUser("input");
-        Graph graph = FileHelper.createGraph(path);
+        graph = FileHelper.createGraph(path);
         path = readPathFromUser("commands");
         ArrayList<FriendCommand> commands = FileHelper.getCommands(path);
+        for (FriendCommand cmd: commands)
+            executeCommand(cmd);
+    }
+
+    private static void executeCommand(FriendCommand com){
+        if(com.getCommand() == Command.CF_BY_INDEX){
+            graph.addEdge(com.getLeftIndex(), com.getRightIndex());
+        }else if(com.getCommand() == Command.CF_BY_ATTR){
+            graph.addEdge(com.getLeftFriend(), com.getRightFriend());
+        }else if(com.getCommand() == Command.DEL_BY_INDEX){
+            graph.deleteEdge(com.getLeftIndex(), com.getRightIndex());
+        }else if(com.getCommand() == Command.DEL_BY_ATTR){
+            graph.deleteEdge(com.getLeftFriend(), com.getRightFriend());
+        }else if(com.getCommand() == Command.ASK_F_BY_INDEX){
+            graph.hasNode(com.getLeftIndex(), com.getRightIndex());
+        }else if(com.getCommand() == Command.ASK_F_BY_ATTR){
+            graph.hasNode(com.getLeftFriend(), com.getRightFriend());
+        }else if(com.getCommand() == Command.ASK_L_BY_INDEX){
+            graph.searchLevel(com.getLeftIndex(), com.getRightIndex());
+        }else if(com.getCommand() == Command.ASK_L_BY_ATTR){
+            graph.searchLevel(com.getLeftFriend(), com.getRightFriend());
+        }
     }
 
     public static String readPathFromUser(String opt){
