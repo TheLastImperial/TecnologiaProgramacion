@@ -31,7 +31,7 @@ public class Main {
         }else if(com.getCommand() == Command.ASK_L_BY_INDEX){
             graph.searchLevel(com.getLeftIndex(), com.getRightIndex());
         }else if(com.getCommand() == Command.ASK_L_BY_ATTR){
-            graph.searchLevel(com.getLeftFriend(), com.getRightFriend());
+            graph.searchLevel(com.getRightFriend(), com.getRightIndex());
         }
     }
 

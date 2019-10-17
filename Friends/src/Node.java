@@ -6,12 +6,17 @@ public class Node {
     private String lastName;
     private String sex;
     private String birthday;
+    private String key;
     private Hashtable<String, Node> edges;
     public Node(String name, String lastName, String sex, String birthday){
-        this.name = name;
-        this.lastName = lastName;
-        this.sex = sex;
-        this.birthday = birthday;
+        this.name = name.trim();
+        this.lastName = lastName.trim();
+        this.sex = sex.trim();
+        this.birthday = birthday.trim();
+        this.key = this.name.replace(" ", "")
+                + this.lastName.replace(" ", "")
+                + this.sex.replace(" ", "")
+                + this.birthday.replace(" ", "");
         this.edges = new Hashtable<String, Node>();
     }
 
@@ -42,7 +47,7 @@ public class Node {
     }
 
     public String getKey(){
-        return name + lastName + birthday;
+        return key;
     }
 
     public ArrayList<Node> getdestinies(){

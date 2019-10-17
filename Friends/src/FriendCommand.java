@@ -183,4 +183,13 @@ public class FriendCommand {
     public Command getCommand() {
         return command;
     }
+
+    public String toString(){
+        String result = command + " ";
+        result += leftFriend + " ";
+        result += rightFriend + " ";
+        result += leftIndex + " ";
+        result += rightIndex;
+        return result;
+    }
 }

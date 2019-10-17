@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Stack;
+import java.util.*;
 
 public class Graph {
     private Hashtable<String, Node> nodes;
@@ -22,6 +20,8 @@ public class Graph {
     public void addEdge(Node left, Node right) {
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
+        if(leftNode == null || rightNode == null)
+            return;
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
@@ -38,7 +38,7 @@ public class Graph {
     public void deleteEdge(Node left, Node right) {
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
-        if(leftNode == null || right == null)
+        if(leftNode == null || rightNode == null)
             return;
         leftNode.deleteEdge(rightNode);
         rightNode.deleteEdge(leftNode);
@@ -48,6 +48,8 @@ public class Graph {
         ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
         Node leftNode = nodeList.get(left);
         Node rightNode = nodeList.get(right);
+        if(leftNode == null || rightNode == null)
+            return;
         leftNode.deleteEdge(rightNode);
         rightNode.deleteEdge(leftNode);
     }
@@ -67,6 +69,10 @@ public class Graph {
 
     public void hasNode(int left, int right){
         ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        if(left >= nodeList.size() || right >= nodeList.size()){
+            System.out.println("false");
+            return;
+        }
         Node leftNode = nodeList.get(left);
         Node rightNode = nodeList.get(right);
         if(leftNode.hasDestiny(rightNode))
@@ -75,90 +81,49 @@ public class Graph {
             System.out.println("false");
     }
 
-    public void searchLevel(Node left, Node right){
-        Node leftNode = nodes.get(left.getKey());
+    public void searchLevel(Node right, int level){
         Node rightNode = nodes.get(right.getKey());
+        System.out.println(friendsLevel(rightNode, level));
     }
 
-    public void searchLevel(int left, int right){
+    public void searchLevel(int right, int level){
         ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
-        Node leftNode = nodeList.get(left);
+        if(right >= nodeList.size()){
+            System.out.println("[]");
+            return;
+        }
         Node rightNode = nodeList.get(right);
+        ArrayList<Node> arr = friendsLevel(rightNode, level);
+        System.out.println(friendsLevel(rightNode, level));
     }
 
-    /*
-     * Este metodo se encarga de validar que los nodos puedan ser buscados.
-     * Si se cumple se ejecuta el metodo pathWay para encontrar el camino.
-     * */
-    public void searchPath(String left, String right) {
-        left = left.toLowerCase();
-        right = right.toLowerCase();
-
-        // Se obtienen los nodos origen y destino.
-        Node origin = nodes.get(left);
-        Node destiny = nodes.get(right);
-        this.path = new ArrayList<Node>();
-        path.add(origin);
-        path.add(destiny);
-
-        // No existe alguno de los 2 nodos.
-        if (!nodes.containsKey(left) || !nodes.containsKey(right)) {
-            System.out.println("- " + left + " => " + right);
-            return;
-        }
-        // El origen no tiene ninguna relacion con alguna ciudad.
-        if (origin.isEmpty()) {
-            System.out.println("- " + left + " => " + right);
-            return;
-        } else if (origin.hasDestiny(destiny)) { // En caso de que el origen ya tenga el destino.
-            System.out.println("+ " + left + " => " + right);
-            return;
-        }
-        // Lista resultado en caso de que se encuentre un camino
-        Stack<Node> stack = new Stack<Node>();
-        boolean isAWay = pathWay(origin, destiny, new ArrayList<Node>(), stack);
-        String result = stackToString(isAWay, origin, destiny, stack);
-        System.out.println(result);
+    public ArrayList<Node> friendsLevel(Node origin, int level){
+        ArrayList<Node> resultList = new ArrayList<Node>();
+        ArrayList<Node> visited = new ArrayList<Node>();
+        pathWay(origin, 0, level, visited, resultList);
+        return resultList;
     }
-    /*
-     * Busca en los nodos hasta encontrar el destino o que ya se
-     * haya recorrido todos los posibles caminos.
-     * */
-    public boolean pathWay(Node origin, Node destiny, ArrayList<Node> visited, Stack<Node> stack){
-        visited.add(origin);
+
+    public boolean pathWay(Node origin, int currentLevel, int level, ArrayList<Node> visited, ArrayList<Node> resultList){
         boolean result = false;
-        if(origin.equals(destiny)){
+        if(currentLevel == level - 1){
+            resultList.addAll(origin.getdestinies());
             return true;
         }
+        visited.add(origin);
         ArrayList<Node> nodes = origin.getdestinies();
         if(nodes.isEmpty())
             return false;
-        for (Node node: nodes) {
-            if(!visited.contains(node)){
-                result = pathWay(node, destiny, visited, stack);
-                if(result){
-                    stack.push(node);
-                    return true;
-                }
-            }
-        }
+        for (Node node: nodes)
+            if(!visited.contains(node))
+                result = pathWay(origin, currentLevel++, level, visited, resultList);
         return result;
     }
 
-    private String stackToString(boolean found, Node origin, Node destiny, Stack<Node> stack){
-        String result = "";
-        if(found)
-            result = "+ " + origin.getName() + " => ";
-        else
-            result = "- " + origin.getName() + " => " + destiny.getName();
-        while(found && !stack.isEmpty()){
-            result += stack.pop().getName();
-            if(!stack.isEmpty())
-                result += " => ";
-        }
-        return result;
-    }
     public String toString(){
         return new ArrayList<Node>(nodes.values()).toString();
+        /*ArrayList<String>  result = Collections.list(nodes.keys());
+        return result.toString();
+        */
     }
 }

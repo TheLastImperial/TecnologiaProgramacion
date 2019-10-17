@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileHelper {
-    private static final String REGEX = "([a-zA-Z]{1,20})\\s*,\\s*([a-zA-Z]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{4}-\\d{2}-\\d{2})";
 
     public static Graph createGraph(String path){
         return stringsToGraph(getLines(path));
@@ -31,7 +30,7 @@ public class FileHelper {
     }
 
     private static Graph stringsToGraph(ArrayList<String> strs){
-        Pattern pattern = Pattern.compile(REGEX);
+        Pattern pattern = Pattern.compile(FriendCommand.REGEX_NAME);
         Graph result = new Graph();
         resetIgnoreFile();
         for (String str: strs){
