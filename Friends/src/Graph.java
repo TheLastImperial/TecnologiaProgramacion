@@ -2,16 +2,18 @@ import java.util.*;
 
 public class Graph {
     private Hashtable<String, Node> nodes;
-    private ArrayList<Node> path;
-
+    private ArrayList<String> indexes;
     public Graph() {
+        indexes = new ArrayList<String>();
         nodes = new Hashtable<String, Node>();
     }
     // Agrega un nuevo nodo al grafo, en caso de existir no lo
     // agrega y en caso de no existir lo crea y luego lo agrega.
     public void addNode(Node node) {
-        if (!nodes.containsKey(node.getKey()))
+        if (!nodes.containsKey(node.getKey())){
             nodes.put(node.getKey(), node);
+            indexes.add(node.getKey());
+        }
     }
     /*
      * Agrega un nuevo vertice al nodo. En caso de ya existir no hace nada.
@@ -87,14 +89,14 @@ public class Graph {
     }
 
     public void searchLevel(int right, int level){
-        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
-        if(right >= nodeList.size()){
+        Node rightNode = nodes.get(indexes.get(right));
+        if(rightNode == null){
             System.out.println("[]");
             return;
         }
-        Node rightNode = nodeList.get(right);
+        // System.out.println(rightNode.getdestinies());
         ArrayList<Node> arr = friendsLevel(rightNode, level);
-        System.out.println(friendsLevel(rightNode, level));
+        System.out.println(arr);
     }
 
     public ArrayList<Node> friendsLevel(Node origin, int level){
@@ -115,8 +117,9 @@ public class Graph {
         if(nodes.isEmpty())
             return false;
         for (Node node: nodes)
-            if(!visited.contains(node))
-                result = pathWay(origin, currentLevel++, level, visited, resultList);
+            if(!visited.contains(node)){
+                result = pathWay(origin, currentLevel + 1, level, visited, resultList);
+            }
         return result;
     }
 
