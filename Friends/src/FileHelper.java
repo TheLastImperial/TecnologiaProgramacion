@@ -3,7 +3,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,8 +39,12 @@ public class FileHelper {
             Matcher matcher = pattern.matcher(str);
             if(matcher.find()){
                 String aux = matcher.group();
-                aux = aux.replace(" ", "");
+                aux = aux.trim();
                 String values[] = aux.split(",");
+                if(!validateDate(values[3].replace(" ", ""))){
+                    writeIgnoreFile(str);
+                    continue;
+                }
                 result.addNode(new Node(
                         values[0],
                         values[1],
@@ -84,5 +90,14 @@ public class FileHelper {
             writer.write("");
             writer.close();
         }catch(Exception e){}
+    }
+    private static boolean validateDate(String inputDate){
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date d = dateFormat.parse(inputDate);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }

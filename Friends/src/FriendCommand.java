@@ -2,7 +2,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FriendCommand {
-    public static final String REGEX_NAME = "([a-zA-Z]{1,20})\\s*,\\s*([a-zA-Z]{1,20})\\s*,\\s*([MmFf])\\s*,\\s*(\\d{4}-\\d{2}-\\d{2})";
+    public static final String REGEX_NAME = "([a-zA-Z]+\\s*)+,\\s*([a-zA-Z]+\\s*)+,\\s*([MmFf])\\s*,\\s*(\\d{2}/\\d{2}/\\d{4})";
     // Expresion regular del comando para crear unaa relacion con los indices en el arreglo.
     private static final String REGEX_CF_BY_INDEX = "\\d+\\s*amigo\\s*\\d+";
     // Expresion regular del comando para crear una relacion con los atributos del nodo.

@@ -38,8 +38,6 @@ public class Main {
     public static String readPathFromUser(String opt){
         Scanner scanner = new Scanner(System.in);
         String path = Paths.get(".").toAbsolutePath().normalize().toString() + "/" + opt;
-        return path;
-        /*
         System.out.println("Se buscara un archivo en la ruta: " + path);
         System.out.print("Presiona e si deseas colocar tu propio path, presiona cualquier tecla para continuar con el path anterior: ");
         String aux = scanner.nextLine();
@@ -58,6 +56,5 @@ public class Main {
             }
         }
         return path;
-        */
     }
 }

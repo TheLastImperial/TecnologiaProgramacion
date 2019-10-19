@@ -1,3 +1,4 @@
+import javax.sound.midi.SysexMessage;
 import java.util.*;
 
 public class Graph {
@@ -27,13 +28,12 @@ public class Graph {
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
+
     public void addEdge(int left, int right) {
-        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
-        if(left >= nodeList.size() || right >= nodeList.size())
+        if(left >= indexes.size() || right >= indexes.size())
             return;
-        Node leftNode = nodeList.get(left);
-        Node rightNode = nodeList.get(right);
-        System.out.println("Elimminar " + leftNode + " " + rightNode);
+        Node leftNode = nodes.get(indexes.get(left));
+        Node rightNode = nodes.get(indexes.get(right));
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
@@ -50,11 +50,10 @@ public class Graph {
     }
 
     public void deleteEdge(int left, int right) {
-        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
-        Node leftNode = nodeList.get(left);
-        Node rightNode = nodeList.get(right);
-        if(leftNode == null || rightNode == null)
+        if(left >= indexes.size() || right >= indexes.size())
             return;
+        Node leftNode = nodes.get(indexes.get(left));
+        Node rightNode = nodes.get(indexes.get(right));
         leftNode.deleteEdge(rightNode);
         rightNode.deleteEdge(leftNode);
     }
@@ -62,6 +61,7 @@ public class Graph {
     public void hasNode(Node left, Node right){
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
+        System.out.println(leftNode + " " + rightNode);
         if(leftNode == null || right == null){
             System.out.println("false");
             return;
@@ -73,13 +73,12 @@ public class Graph {
     }
 
     public void hasNode(int left, int right){
-        ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
-        if(left >= nodeList.size() || right >= nodeList.size()){
+        if(left >= indexes.size() || right >= indexes.size()){
             System.out.println("false");
             return;
         }
-        Node leftNode = nodeList.get(left);
-        Node rightNode = nodeList.get(right);
+        Node leftNode = nodes.get(indexes.get(left));
+        Node rightNode = nodes.get(indexes.get(right));
         if(leftNode.hasDestiny(rightNode))
             System.out.println("true");
         else
