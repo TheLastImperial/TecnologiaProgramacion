@@ -29,8 +29,11 @@ public class Graph {
     }
     public void addEdge(int left, int right) {
         ArrayList<Node> nodeList = new ArrayList<Node>(nodes.values());
+        if(left >= nodeList.size() || right >= nodeList.size())
+            return;
         Node leftNode = nodeList.get(left);
         Node rightNode = nodeList.get(right);
+        System.out.println("Elimminar " + leftNode + " " + rightNode);
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
@@ -94,7 +97,6 @@ public class Graph {
             System.out.println("[]");
             return;
         }
-        // System.out.println(rightNode.getdestinies());
         ArrayList<Node> arr = friendsLevel(rightNode, level);
         System.out.println(arr);
     }
@@ -103,13 +105,15 @@ public class Graph {
         ArrayList<Node> resultList = new ArrayList<Node>();
         ArrayList<Node> visited = new ArrayList<Node>();
         pathWay(origin, 0, level, visited, resultList);
+        resultList.removeIf(ele -> ele.equals(origin));
         return resultList;
     }
 
     public boolean pathWay(Node origin, int currentLevel, int level, ArrayList<Node> visited, ArrayList<Node> resultList){
         boolean result = false;
-        if(currentLevel == level - 1){
-            resultList.addAll(origin.getdestinies());
+        if(currentLevel == level){
+            if(!resultList.contains(origin))
+                resultList.add(origin);
             return true;
         }
         visited.add(origin);
@@ -118,7 +122,7 @@ public class Graph {
             return false;
         for (Node node: nodes)
             if(!visited.contains(node)){
-                result = pathWay(origin, currentLevel + 1, level, visited, resultList);
+                result = pathWay(node, currentLevel + 1, level, visited, resultList);
             }
         return result;
     }
