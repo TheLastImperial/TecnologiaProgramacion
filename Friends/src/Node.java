@@ -44,6 +44,7 @@ public class Node {
 
     public String toString(){
         return name;
+        // return name + " " + lastName + " " + sex + " " + birthday;
     }
 
     public String getKey(){
@@ -52,5 +53,25 @@ public class Node {
 
     public ArrayList<Node> getdestinies(){
         return new ArrayList<Node>(edges.values());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(!(obj instanceof Node))
+            return false;
+        Node node = (Node) obj;
+        if(!this.name.equalsIgnoreCase(node.name))
+            return false;
+        if(!this.lastName.equalsIgnoreCase(node.lastName))
+            return false;
+        if(!this.sex.equalsIgnoreCase(node.sex))
+            return false;
+        if(!this.birthday.equalsIgnoreCase(node.birthday))
+            return false;
+        if(!this.key.equalsIgnoreCase(node.key))
+            return false;
+        return true;
     }
 }
