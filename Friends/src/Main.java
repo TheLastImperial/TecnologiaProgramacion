@@ -32,6 +32,12 @@ public class Main {
             graph.searchLevel(com.getLeftIndex(), com.getRightIndex());
         }else if(com.getCommand() == Command.ASK_L_BY_ATTR){
             graph.searchLevel(com.getRightFriend(), com.getRightIndex());
+        }else if(com.getCommand() == Command.CF_BY_ATTR_INDEX){
+            graph.addEdge(com.getRightFriend(), com.getRightIndex());
+        }else if(com.getCommand() == Command.DEL_BY_ATTR_INDEX){
+            graph.deleteEdge(com.getRightFriend(), com.getRightIndex());
+        }else if(com.getCommand() == Command.ASK_F_BY_ATTR_INDEX){
+            graph.hasNode(com.getRightFriend(), com.getRightIndex());
         }
     }
 

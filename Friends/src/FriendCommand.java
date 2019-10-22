@@ -7,14 +7,27 @@ public class FriendCommand {
     private static final String REGEX_CF_BY_INDEX = "^(\\d+\\s*amigo\\s*\\d+)";
     // Expresion regular del comando para crear una relacion con los atributos del nodo.
     private static final String REGEX_CF_BY_ATTR = "^(" + REGEX_NAME + "\\s*amigo\\s*" + REGEX_NAME + ")";
+
+    private static final String REGEX_CF_F_I = "^(" + REGEX_NAME + "\\s*amigo\\s*\\d+)";
+    private static final String REGEX_CF_I_F = "^(\\d+amigo" + REGEX_NAME + ")";
+
+
     // Expresion regular que se encarga de eliminar una relacion por su indice.
     private static final String REGEX_DEL_BY_INDEX = "^(\\d+\\s*eliminar\\s*\\d+)";
     // Expresion regulaar que se encarga de eliminar una relacion por los atributos del nodo
     private static final String REGEX_DEL_BY_ATTR = "^(" + REGEX_NAME + "\\s*eliminar\\s*" + REGEX_NAME + ")";
+
+    private static final String REGEX_DEL_BY_ATTR_INDEX = "^(" + REGEX_NAME + "\\s*eliminar\\s*\\d+)";
+    private static final String REGEX_DEL_BY_INDEX_ATTR = "^(\\d+\\s*eliminar\\s*" +  REGEX_NAME + ")";
+
     // Expresion regular para preguntar por una amitad directa usando sus indices.
     private static final String REGEX_ASK_F_BY_INDEX = "^(\\d+\\s*amigos\\s*\\d+)";
     // Expresion regular para preguntar por una amitad directa usando los atributos del amigo.
     private static final String REGEX_ASK_F_BY_ATTR = "^(" + REGEX_NAME + "\\s*amigos\\s*" + REGEX_NAME + ")";
+
+    private static final String REGEX_ASK_F_BY_ATTR_INDEX = "^(" + REGEX_NAME + "\\s*amigos\\s*\\d+)";
+    private static final String REGEX_ASK_F_BY_INDEX_ATTR = "^(\\d+\\s*amigos\\s*" + REGEX_NAME + ")";
+
     // Expresion regular para preguntar por un nivel por el indice de un amigo.
     private static final String REGEX_ASK_L_BY_INDEX = "^(amigos\\s*\\d+\\s+\\d+)";
     // Expresion regular para preguntar por un nivel por el indice de un amigo.
@@ -22,7 +35,10 @@ public class FriendCommand {
     // Expresion regular para todas las posibles preguntas o compandos.
     public static final String REGEX_INPUT_FILE = REGEX_CF_BY_INDEX + "|" + REGEX_CF_BY_ATTR + "|" + REGEX_DEL_BY_INDEX
             + "|" + REGEX_DEL_BY_ATTR + "|" + REGEX_ASK_F_BY_INDEX + "|" + REGEX_ASK_F_BY_ATTR
-            + "|" + REGEX_ASK_L_BY_INDEX + "|" + REGEX_ASK_L_BY_ATTR;
+            + "|" + REGEX_ASK_L_BY_INDEX + "|" + REGEX_ASK_L_BY_ATTR
+            + "|" + REGEX_CF_F_I + "|" + REGEX_CF_I_F + "|" + REGEX_DEL_BY_ATTR_INDEX
+            + "|" + REGEX_DEL_BY_INDEX_ATTR + REGEX_ASK_F_BY_ATTR_INDEX
+            + "|" + REGEX_ASK_F_BY_INDEX_ATTR;
 
     private String friendCommand;
     private int  leftIndex;
@@ -95,6 +111,55 @@ public class FriendCommand {
             askLByAAttr();
             return;
         }
+
+        pattern = Pattern.compile(REGEX_CF_F_I);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.CF_BY_ATTR_INDEX;
+            cfByFI();
+            return;
+        }
+
+        pattern = Pattern.compile(REGEX_CF_I_F);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.CF_BY_ATTR_INDEX;
+            cfByIF();
+            return;
+        }
+
+        pattern = Pattern.compile(REGEX_DEL_BY_ATTR_INDEX);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.DEL_BY_ATTR_INDEX;
+            delByAttrIndex();
+            return;
+        }
+
+        pattern = Pattern.compile(REGEX_DEL_BY_INDEX_ATTR);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.DEL_BY_ATTR_INDEX;
+            delByIndexAttr();
+            return;
+        }
+
+        pattern = Pattern.compile(REGEX_ASK_F_BY_ATTR_INDEX);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.ASK_F_BY_ATTR_INDEX;
+            askFByAttrIndex();
+            return;
+        }
+
+        pattern = Pattern.compile(REGEX_ASK_F_BY_INDEX_ATTR);
+        matcher = pattern.matcher(friendCommand);
+        if(matcher.find()){
+            command = Command.ASK_F_BY_ATTR_INDEX;
+            askFByIndexAttr();
+            return;
+        }
+
     }
 
     // Estos son todos los posibles constructores para un comando.
@@ -158,6 +223,48 @@ public class FriendCommand {
         rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
         aux = aux.replaceAll(REGEX_NAME, " ");
         rightIndex = Integer.parseInt(aux.trim());
+    }
+
+    private void cfByFI(){
+        String aux[] = friendCommand.trim().split("amigo");
+        String friend[] = aux[0].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
+        rightIndex = Integer.parseInt(aux[1].trim());
+    }
+
+    private void cfByIF(){
+        String aux[] = friendCommand.trim().split("amigo");
+        rightIndex = Integer.parseInt(aux[0].trim());
+        String friend[] = aux[1].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
+    }
+
+    private void delByAttrIndex(){
+        String aux[] = friendCommand.trim().split("eliminar");
+        String friend[] = aux[0].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
+        rightIndex = Integer.parseInt(aux[1].trim());
+    }
+
+    private void delByIndexAttr(){
+        String aux[] = friendCommand.trim().split("eliminar");
+        rightIndex = Integer.parseInt(aux[0].trim());
+        String friend[] = aux[1].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
+    }
+
+    private void askFByAttrIndex(){
+        String aux[] = friendCommand.trim().split("amigos");
+        String friend[] = aux[0].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
+        rightIndex = Integer.parseInt(aux[1].trim());
+    }
+
+    private void askFByIndexAttr(){
+        String aux[] = friendCommand.trim().split("amigos");
+        rightIndex = Integer.parseInt(aux[0].trim());
+        String friend[] = aux[1].split(",");
+        rightFriend = new Node(friend[0], friend[1], friend[2], friend[3]);
     }
 
     public String getFriendCommand() {
