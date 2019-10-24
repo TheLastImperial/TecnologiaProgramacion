@@ -9,7 +9,7 @@ public class FriendCommand {
     private static final String REGEX_CF_BY_ATTR = "^(" + REGEX_NAME + "\\s*amigo\\s*" + REGEX_NAME + ")";
 
     private static final String REGEX_CF_F_I = "^(" + REGEX_NAME + "\\s*amigo\\s*\\d+)";
-    private static final String REGEX_CF_I_F = "^(\\d+amigo" + REGEX_NAME + ")";
+    private static final String REGEX_CF_I_F = "^(\\d+\\s*amigo\\s*" + REGEX_NAME + ")";
 
 
     // Expresion regular que se encarga de eliminar una relacion por su indice.
@@ -37,7 +37,7 @@ public class FriendCommand {
             + "|" + REGEX_DEL_BY_ATTR + "|" + REGEX_ASK_F_BY_INDEX + "|" + REGEX_ASK_F_BY_ATTR
             + "|" + REGEX_ASK_L_BY_INDEX + "|" + REGEX_ASK_L_BY_ATTR
             + "|" + REGEX_CF_F_I + "|" + REGEX_CF_I_F + "|" + REGEX_DEL_BY_ATTR_INDEX
-            + "|" + REGEX_DEL_BY_INDEX_ATTR + REGEX_ASK_F_BY_ATTR_INDEX
+            + "|" + REGEX_DEL_BY_INDEX_ATTR + "|" + REGEX_ASK_F_BY_ATTR_INDEX
             + "|" + REGEX_ASK_F_BY_INDEX_ATTR;
 
     private String friendCommand;

@@ -43,8 +43,8 @@ public class Node {
     }
 
     public String toString(){
-        return name;
-        // return name + " " + lastName + " " + sex + " " + birthday;
+        // return name;
+        return name + " " + lastName + " " + sex + " " + birthday;
     }
 
     public String getKey(){
