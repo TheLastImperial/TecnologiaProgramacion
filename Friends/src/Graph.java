@@ -23,7 +23,7 @@ public class Graph {
     public void addEdge(Node left, Node right) {
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
-        if(leftNode == null || rightNode == null)
+        if(leftNode == null || rightNode == null || leftNode.equals(rightNode))
             return;
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
@@ -34,6 +34,8 @@ public class Graph {
         if(leftNode == null || right >= indexes.size())
             return;
         Node rightNode = nodes.get(indexes.get(right));
+        if(leftNode.equals(rightNode))
+            return;
         leftNode.addEdge(rightNode);
         rightNode.addEdge(leftNode);
     }
