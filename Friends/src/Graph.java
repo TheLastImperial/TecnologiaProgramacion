@@ -61,7 +61,6 @@ public class Graph {
     public void hasNode(Node left, Node right){
         Node leftNode = nodes.get(left.getKey());
         Node rightNode = nodes.get(right.getKey());
-        System.out.println(leftNode + " " + rightNode);
         if(leftNode == null || right == null){
             System.out.println("false");
             return;
