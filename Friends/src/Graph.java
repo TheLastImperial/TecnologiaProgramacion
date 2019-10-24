@@ -29,6 +29,15 @@ public class Graph {
         rightNode.addEdge(leftNode);
     }
 
+    public void addEdge(Node left, int right) {
+        Node leftNode = nodes.get(left.getKey());
+        if(leftNode == null || right >= indexes.size())
+            return;
+        Node rightNode = nodes.get(indexes.get(right));
+        leftNode.addEdge(rightNode);
+        rightNode.addEdge(leftNode);
+    }
+
     public void addEdge(int left, int right) {
         if(left >= indexes.size() || right >= indexes.size())
             return;
@@ -49,6 +58,15 @@ public class Graph {
         rightNode.deleteEdge(leftNode);
     }
 
+    public void deleteEdge(Node left, int right) {
+        Node leftNode = nodes.get(left.getKey());
+        if(leftNode == null || right >= indexes.size())
+            return;
+        Node rightNode = nodes.get(indexes.get(right));
+        leftNode.deleteEdge(rightNode);
+        rightNode.deleteEdge(leftNode);
+    }
+
     public void deleteEdge(int left, int right) {
         if(left >= indexes.size() || right >= indexes.size())
             return;
@@ -65,6 +83,19 @@ public class Graph {
             System.out.println("false");
             return;
         }
+        if(leftNode.hasDestiny(rightNode))
+            System.out.println("true");
+        else
+            System.out.println("false");
+    }
+
+    public void hasNode(Node left, int right){
+        Node leftNode = nodes.get(left.getKey());
+        if(leftNode == null || right >= indexes.size()){
+            System.out.println("false");
+            return;
+        }
+        Node rightNode = nodes.get(indexes.get(right));
         if(leftNode.hasDestiny(rightNode))
             System.out.println("true");
         else
