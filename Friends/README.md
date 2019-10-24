@@ -11,3 +11,7 @@ Rafael Imperial Rojo
 ## Relación de amigos en archivos por default.
 
 ![UML](Graph.jpg)
+
+## Relacion de amigos en archivos de victor.
+
+![UML](VictorGraph.jpeg)
