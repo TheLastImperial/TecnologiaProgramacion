@@ -31,7 +31,7 @@ public class Graph {
 
     public void addEdge(Node left, int right) {
         Node leftNode = nodes.get(left.getKey());
-        if(leftNode == null || right >= indexes.size())
+        if(leftNode == null || right >= indexes.size() || right < 0)
             return;
         Node rightNode = nodes.get(indexes.get(right));
         if(leftNode.equals(rightNode))
@@ -41,7 +41,7 @@ public class Graph {
     }
 
     public void addEdge(int left, int right) {
-        if(left >= indexes.size() || right >= indexes.size())
+        if(left >= indexes.size() || right >= indexes.size() || left < 0 || right < 0)
             return;
         Node leftNode = nodes.get(indexes.get(left));
         Node rightNode = nodes.get(indexes.get(right));
@@ -62,7 +62,7 @@ public class Graph {
 
     public void deleteEdge(Node left, int right) {
         Node leftNode = nodes.get(left.getKey());
-        if(leftNode == null || right >= indexes.size())
+        if(leftNode == null || right >= indexes.size() || right < 0)
             return;
         Node rightNode = nodes.get(indexes.get(right));
         leftNode.deleteEdge(rightNode);
@@ -70,7 +70,7 @@ public class Graph {
     }
 
     public void deleteEdge(int left, int right) {
-        if(left >= indexes.size() || right >= indexes.size())
+        if(left >= indexes.size() || right >= indexes.size() || left < 0 || right < 0)
             return;
         Node leftNode = nodes.get(indexes.get(left));
         Node rightNode = nodes.get(indexes.get(right));
@@ -93,7 +93,7 @@ public class Graph {
 
     public void hasNode(Node left, int right){
         Node leftNode = nodes.get(left.getKey());
-        if(leftNode == null || right >= indexes.size()){
+        if(leftNode == null || right >= indexes.size() || right < 0){
             System.out.println("false");
             return;
         }
@@ -105,7 +105,7 @@ public class Graph {
     }
 
     public void hasNode(int left, int right){
-        if(left >= indexes.size() || right >= indexes.size()){
+        if(left >= indexes.size() || right >= indexes.size() || left < 0 || right < 0){
             System.out.println("false");
             return;
         }
@@ -123,6 +123,10 @@ public class Graph {
     }
 
     public void searchLevel(int right, int level){
+        if(right < 0){
+            System.out.println("[]");
+            return;
+        }
         Node rightNode = nodes.get(indexes.get(right));
         if(rightNode == null){
             System.out.println("[]");

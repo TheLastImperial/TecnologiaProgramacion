@@ -21,7 +21,7 @@ public class Node {
     }
 
     public void addEdge(Node node){
-        if(!edges.containsKey(node.getKey()))
+        if(!edges.containsKey(node.getKey()) && !this.equals(node))
             edges.put(node.getKey(), node);
     }
 
@@ -40,6 +40,18 @@ public class Node {
 
     public String getName(){
         return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getBirthday() {
+        return birthday;
     }
 
     public String toString(){
