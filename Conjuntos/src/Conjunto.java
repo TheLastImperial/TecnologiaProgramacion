@@ -26,15 +26,15 @@ public class Conjunto<E> extends ArrayList {
         return false;
     }
 
-    public Conjunto<E> difference(Conjunto<E> input){
-        Conjunto<E> result = (Conjunto<E>) this.clone();
+    public Conjunto<?> difference(Conjunto<?> input){
+        Conjunto<?> result = (Conjunto<?>) this.clone();
         for (int i = 0; i < input.size(); i++)
             result.remove(input.get(i));
         return result;
     }
 
-    public Conjunto<E> intersection(Conjunto<E> input){
-        Conjunto<E> result = new Conjunto<E>();
+    public Conjunto<?> intersection(Conjunto<?> input){
+        Conjunto<?> result = new Conjunto();
         if(this.size() > input.size()){
             for (int i = 0; i < this.size(); i++){
                 if(input.contains(this.get(i)))
@@ -49,13 +49,53 @@ public class Conjunto<E> extends ArrayList {
         return result;
     }
 
-    public Conjunto<E> union(Conjunto<E> input){
-        Conjunto<E> result = (Conjunto<E>) this.clone();
+    public Conjunto<?> union(Conjunto<?> input){
+        Conjunto<?> result = (Conjunto<?>) this.clone();
 
         for(int i = 0; i < input.size(); i++)
             if(!this.contains(input.get(i)))
                 result.add(input.get(i));
 
+        return result;
+    }
+
+    public Conjunto<?> complement(Conjunto<?> universe){
+        return universe.difference(this);
+    }
+
+    public boolean subset(Conjunto<E> cInput){
+        boolean flag = true;
+        for (int i = 0; i< cInput.size(); i++){
+            if(!this.contains(cInput.get(i))){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    public boolean subsetP(Conjunto<E> cInput){
+        boolean flag = true;
+        if(cInput.size() >= this.size())
+            return false;
+        for (int i=0; i < cInput.size(); i++){
+            if(!this.contains(cInput.get(i))){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    public Conjunto<Par> productC(Conjunto<?> cInput){
+        Conjunto<Par> result = new Conjunto<Par>();
+        boolean flag = false;
+        for (int i = 0; i < this.size(); i++){
+            for (int j = 0; j < cInput.size(); j++){
+                flag = result.add(new Par(this.get(i), cInput.get(i)));
+                System.out.println("Hola : " + this.get(i) + " , " + cInput.get(j) + "Flag: " + flag);
+            }
+        }
         return result;
     }
 
@@ -79,5 +119,14 @@ public class Conjunto<E> extends ArrayList {
                 result += ",";
         }
         return "{" + result + "}";
+    }
+
+
+    public void print() {
+        System.out.println(this.toString());
+    }
+
+    public void print(String setName) {
+        System.out.println(setName + " : " + this);
     }
 }
