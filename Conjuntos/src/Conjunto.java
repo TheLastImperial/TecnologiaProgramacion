@@ -92,10 +92,17 @@ public class Conjunto<E> extends ArrayList {
         boolean flag = false;
         for (int i = 0; i < this.size(); i++){
             for (int j = 0; j < cInput.size(); j++){
-                flag = result.add(new Par(this.get(i), cInput.get(i)));
-                System.out.println("Hola : " + this.get(i) + " , " + cInput.get(j) + "Flag: " + flag);
+                Par p = new Par(this.get(i), cInput.get(j));
+                flag = result.add(p);
             }
         }
+        return result;
+    }
+
+    public Conjunto<Conjunto<E>> pow(){
+        Conjunto<Conjunto<E>> result = new Conjunto<Conjunto<E>>();
+        result.add(new Conjunto<E>());
+
         return result;
     }
 
@@ -120,7 +127,6 @@ public class Conjunto<E> extends ArrayList {
         }
         return "{" + result + "}";
     }
-
 
     public void print() {
         System.out.println(this.toString());

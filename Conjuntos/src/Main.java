@@ -13,9 +13,26 @@ public class Main {
         // difArrConjB();
         // testSimpleObj();
         // testP();
-        // testSaul();
+        testSaul();
         // testSaul2();
-        testBarron();
+        // testBarron();
+        // testBarron2();
+    }
+
+    private static void testBarron2(){
+        Conjunto<Integer> c1 = new Conjunto<Integer>(new Integer[]{1, 2, 3});
+        Conjunto<Integer> c2 = new Conjunto<Integer>(new Integer[]{5, 7, 9});
+        Conjunto<Integer> c3 = new Conjunto<Integer>(new Integer[]{1});
+        Conjunto<Conjunto<Integer>> c4 = new Conjunto<Conjunto<Integer>>();
+        c4.add(c1);
+        c4.add(c2);
+        c4.add(c3);
+        System.out.println(c4);
+        System.out.println(c4.contains(c3));
+        c1 = (Conjunto<Integer>) c1.difference(c3);
+        System.out.println(c1);
+        System.out.println(c4);
+
     }
 
     private static void testBarron(){
