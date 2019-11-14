@@ -102,7 +102,20 @@ public class Conjunto<E> extends ArrayList {
     public Conjunto<Conjunto<E>> pow(){
         Conjunto<Conjunto<E>> result = new Conjunto<Conjunto<E>>();
         result.add(new Conjunto<E>());
-
+        Conjunto<E> loop = (Conjunto<E>)this.clone();
+        Conjunto<E> c = new Conjunto<E>();
+        while(!loop.empty()){
+            Conjunto<E> c2 = (Conjunto<E>)c.clone();
+            for(int i = 0; i < loop.size(); i++){
+                c2.add(loop.get(i));
+                result.add(c2);
+                c2 = (Conjunto<E>)c.clone();
+            }
+            c = new Conjunto<E>();
+            c.add(loop.get(0));
+            loop.remove(0);
+        }
+        result.add((Conjunto<E>)this.clone());
         return result;
     }
 
@@ -126,6 +139,23 @@ public class Conjunto<E> extends ArrayList {
                 result += ",";
         }
         return "{" + result + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        Conjunto<E> comp = (Conjunto<E>) o;
+
+        if(comp.size() != this.size())
+            return false;
+
+        for (int i = 0; i < this.size(); i++)
+            if(!this.get(i).equals(comp.get(i)))
+                return false;
+        return true;
     }
 
     public void print() {
