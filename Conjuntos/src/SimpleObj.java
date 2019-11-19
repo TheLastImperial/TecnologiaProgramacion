@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Objects;
 
-public class SimpleObj {
+public class SimpleObj implements Serializable {
     private String name;
     private int age;
 

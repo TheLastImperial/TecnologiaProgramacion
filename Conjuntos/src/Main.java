@@ -13,10 +13,51 @@ public class Main {
         // difArrConjB();
         // testSimpleObj();
         // testP();
-        testSaul();
+        // testSaul();
         // testSaul2();
         // testBarron();
         // testBarron2();
+        testClone();
+    }
+
+
+    private static void testClone(){
+        SimpleObj a = new SimpleObj("Maria", 1);
+        SimpleObj b = new SimpleObj("Simon", 2);
+        ArrayList<SimpleObj> al = new ArrayList<SimpleObj>();
+        al.add(a);
+        CompleteObj co = new CompleteObj(al, "Hola", b);
+
+        a = new SimpleObj("Maria", 1);
+        b = new SimpleObj("Simon", 2);
+        al = new ArrayList<SimpleObj>();
+        al.add(a);
+        CompleteObj co2 = new CompleteObj(al, "Hola", b);
+
+        Conjunto<CompleteObj> c = new Conjunto<CompleteObj>();
+        c.add(co);
+        c.add(co2);
+
+        CompleteObj co3 = new CompleteObj(al, "Hola", b);;
+
+        c.add(co3);
+
+        System.out.println(c);
+
+        Conjunto<CompleteObj> c2 = c.clone();
+
+        Conjunto<String> c3 = new Conjunto<String>(new String[]{
+                "Hola", "Hola 2", "Hola 4"
+        });
+
+        Conjunto c4 = c2.union(c3);
+
+        System.out.println(c);
+        System.out.println(c2);
+        System.out.println(c3);
+        System.out.println(c4);
+        System.out.println(c);
+
     }
 
     private static void testBarron2(){

@@ -1,3 +1,9 @@
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,15 +32,15 @@ public class Conjunto<E> extends ArrayList {
         return false;
     }
 
-    public Conjunto<?> difference(Conjunto<?> input){
-        Conjunto<?> result = (Conjunto<?>) this.clone();
+    public Conjunto<E> difference(Conjunto<E> input){
+        Conjunto<E> result = (Conjunto<E>) this.clone();
         for (int i = 0; i < input.size(); i++)
             result.remove(input.get(i));
         return result;
     }
 
-    public Conjunto<?> intersection(Conjunto<?> input){
-        Conjunto<?> result = new Conjunto();
+    public Conjunto<E> intersection(Conjunto<E> input){
+        Conjunto<E> result = new Conjunto<E>();
         if(this.size() > input.size()){
             for (int i = 0; i < this.size(); i++){
                 if(input.contains(this.get(i)))
@@ -59,7 +65,7 @@ public class Conjunto<E> extends ArrayList {
         return result;
     }
 
-    public Conjunto<?> complement(Conjunto<?> universe){
+    public Conjunto<E> complement(Conjunto<E> universe){
         return universe.difference(this);
     }
 
@@ -115,7 +121,8 @@ public class Conjunto<E> extends ArrayList {
             c.add(loop.get(0));
             loop.remove(0);
         }
-        result.add((Conjunto<E>)this.clone());
+        if(!this.empty())
+            result.add((Conjunto<E>)this.clone());
         return result;
     }
 
@@ -158,6 +165,32 @@ public class Conjunto<E> extends ArrayList {
         return true;
     }
 
+    public Conjunto<E> clone(){
+        return (Conjunto<E>) SerializationUtils.clone(this);
+    }
+
+    public Conjunto<E> clone2(){
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(this);
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(bais);
+            return (Conjunto<E>) objectInputStream.readObject();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+/*
+    public Conjunto<E> clone3(){
+        Conjunto<E> result = new Conjunto<E>();
+        for(int i = 0; i< this.size(); i++)
+            result.add(((E)this.get(i)).clone());
+        return result;
+    }
+*/
     public void print() {
         System.out.println(this.toString());
     }
