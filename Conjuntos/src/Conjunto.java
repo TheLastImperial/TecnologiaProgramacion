@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Conjunto<E> extends ArrayList {
+public class Conjunto<E> extends ArrayList<E> {
 
     public Conjunto(){
         super();
@@ -21,12 +21,12 @@ public class Conjunto<E> extends ArrayList {
 
     public Conjunto(Collection<E> coll){
         super();
-        ArrayList list = new ArrayList(coll);
+        ArrayList<E> list = new ArrayList<E>(coll);
         for (int i = 0; i< list.size(); i++)
             this.add(list.get(i));
     }
 
-    public boolean add(Object ele){
+    public boolean add(E ele){
         if(!this.contains(ele))
             return super.add(ele);
         return false;
@@ -55,12 +55,12 @@ public class Conjunto<E> extends ArrayList {
         return result;
     }
 
-    public Conjunto<?> union(Conjunto<?> input){
-        Conjunto<?> result = (Conjunto<?>) this.clone();
+    public Conjunto<E> union(Conjunto<?> input){
+        Conjunto<E> result = (Conjunto<E>) this.clone();
 
         for(int i = 0; i < input.size(); i++)
             if(!this.contains(input.get(i)))
-                result.add(input.get(i));
+                result.add((E)input.get(i));
 
         return result;
     }

@@ -17,9 +17,52 @@ public class Main {
         // testSaul2();
         // testBarron();
         // testBarron2();
-        testClone();
+        // testClone();
+        // testFinal();
+        testMultiClass();
     }
 
+    public static void testMultiClass(){
+        Conjunto<?> elBueno;
+        Conjunto<Alumno> alumnos = new Conjunto<Alumno>(
+                new Alumno[]{
+                        new Alumno("Rafael", 10, "1234"),
+                        new Alumno("Ricardo", 20, "2354"),
+                        new Alumno("Imperial", 26, "M12170614")
+                }
+        );
+
+        Conjunto<Maestro> maestros = new Conjunto<Maestro>(
+                new Maestro[]{
+                        new Maestro("Lucia", 10, "zxcv"),
+                        new Maestro("Pedro", 20, "qwer"),
+                        new Maestro("Ramon", 26, "oiu")
+                }
+        );
+
+        elBueno = alumnos.union(maestros);
+        elBueno.print("El bueno: ");
+    }
+
+    private static void testFinal(){
+        String[] strings1 = new String[]{"A", "B", "C"};
+        Conjunto<String> set1 = new Conjunto<String>(strings1);
+
+        Collection<String> strings2 = new ArrayList<>();
+        strings2.add("RAFAEL");
+        strings2.add("IMPERIAL");
+        strings2.add("ROJO");
+        Conjunto<String> set2 = new Conjunto<>(strings2);
+
+        Conjunto<Par> productoC = set1.productC(set2);
+
+        set1.print("Conjunto 1: ");
+        set2.print("Conjunto 2: ");
+        productoC.print("Producto C: ");
+        set2.pow().print("POW producto: ");
+
+
+    }
 
     private static void testClone(){
         SimpleObj a = new SimpleObj("Maria", 1);
@@ -92,6 +135,7 @@ public class Main {
         Conjunto<Integer> b = new Conjunto<Integer>(arr);
         Conjunto<String> c = new Conjunto<String>(nombres);
 
+        System.out.println(b);
         Conjunto n = new Conjunto(b);
         n.add("String");
         System.out.println(n);

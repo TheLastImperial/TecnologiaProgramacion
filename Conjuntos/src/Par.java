@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Par<T, S> {
+public class Par<T, S> implements Serializable {
     private T tType;
     private S sType;
     public Par(T inputT, S inputS){
