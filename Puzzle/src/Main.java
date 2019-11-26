@@ -12,8 +12,9 @@ public class Main {
         int size = Integer.parseInt(lines.get(2));
         Puzzle puzzle = new Puzzle(delimiter, size);
         lines.remove(0);
-        lines.remove(1);
-        lines.remove(3);
+        lines.remove(0);
+        lines.remove(0);
+        puzzle.play(lines.get(1), lines.get(0));
 
         /*
         for (int i = 0; i < nGames; i++){
