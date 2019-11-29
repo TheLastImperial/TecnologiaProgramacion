@@ -1,11 +1,51 @@
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PuzzleState {
+public class PuzzleState implements Comparable{
     private ArrayList<String> state;
+    private PuzzleState father;
+    private PuzzleState goal;
+    private int g;
+    private int h;
+    private int size;
 
-    public PuzzleState(ArrayList<String> input) {
+    public PuzzleState(ArrayList<String> input, PuzzleState goal, PuzzleState father){
         this.state = input;
+        this.size = (int)Math.sqrt(this.state.size());
+        this.father = father;
+        this.goal = goal;
+        this.h = 0;
+        if(father == null){
+            this.g = 0;
+        }else{
+            this.g = this.father.getG() + 1;
+            setH();
+        }
+    }
+
+    public ArrayList<String> getState() {
+        return state;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public void setG(int g) {
+        this.g = g;
+    }
+
+    public int getH() {
+        return h;
+    }
+    public int getF(){
+        return this.g + this.h;
+    }
+
+    public void setH() {
+        for (int i = 0; i < size; i++)
+            if(!this.state.get(i).equals(this.goal.getState().get(i)))
+                this.h ++;
     }
 
     public String toString(){
@@ -16,7 +56,7 @@ public class PuzzleState {
         return String.join(delimiter, state);
     }
 
-    public ArrayList<PuzzleState> nextMoves(int size){
+    public ArrayList<PuzzleState> nextMoves(){
         ArrayList<PuzzleState> result = new ArrayList<PuzzleState>();
         int indexZero = state.indexOf("0");
 
@@ -27,22 +67,22 @@ public class PuzzleState {
         ArrayList<String> newState;
 
         if(j - 1 >= 0)
-            result.add(newState(i, j, i, (j-1), size ));
+            result.add(newState(i, j, i, (j-1) ));
         if(( j + 1) < size)
-            result.add(newState(i, j, i, (j+1), size ));
+            result.add(newState(i, j, i, (j+1) ));
         if((i + 1) < size)
-            result.add(newState(i, j, (i + 1), j, size ));
+            result.add(newState(i, j, (i + 1), j ));
         if((i - 1) >= 0)
-            result.add(newState(i, j, (i - 1), j, size ));
+            result.add(newState(i, j, (i - 1), j ));
         return result;
     }
 
-    private PuzzleState newState(int iZero, int jZero, int iNew, int jNew, int size){
+    private PuzzleState newState(int iZero, int jZero, int iNew, int jNew){
         String aux = state.get((iNew * size) + jNew);
         ArrayList<String> newState = (ArrayList<String>) this.state.clone();
         newState.set((iNew * size) + jNew, "0");
         newState.set((iZero * size) + jZero, aux);
-        return new PuzzleState(newState);
+        return new PuzzleState(newState, this.goal,this);
     }
     @Override
     public boolean equals(Object o) {
@@ -55,5 +95,18 @@ public class PuzzleState {
     @Override
     public int hashCode() {
         return Objects.hash(this.toString());
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int result = 0;
+        if (this == o) return -1;
+        if (o == null || getClass() != o.getClass()) return -1;
+        PuzzleState that = (PuzzleState) o;
+        if(that.getF() > this.getF())
+            result = 1;
+        if(that.getF() < this.getF())
+            result = -1;
+        return result;
     }
 }

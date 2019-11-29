@@ -11,11 +11,16 @@ public class Puzzle {
         this.size = size;
     }
     public void play(String start, String finish){
-        PuzzleState puzzleStart = new PuzzleState(
-                new ArrayList<String>(Arrays.asList(start.trim().split(this.delimiter) ))
-        );
         PuzzleState puzzleFinish = new PuzzleState(
-                new ArrayList<String>(Arrays.asList(finish.trim().split(this.delimiter) ))
+                new ArrayList<String>(Arrays.asList(finish.trim().split(this.delimiter) )),
+                null,
+                null
+        );
+
+        PuzzleState puzzleStart = new PuzzleState(
+                new ArrayList<String>(Arrays.asList(start.trim().split(this.delimiter) )),
+                puzzleFinish,
+                null
         );
 
         Stack<PuzzleState> stack = new Stack<PuzzleState>();
@@ -44,7 +49,7 @@ public class Puzzle {
             return true;
         }
         System.out.println(origin);
-        ArrayList<PuzzleState> nodes = origin.nextMoves(this.size);
+        ArrayList<PuzzleState> nodes = origin.nextMoves();
         if(nodes.isEmpty())
             return false;
         for (PuzzleState node: nodes) {
@@ -59,6 +64,25 @@ public class Puzzle {
         return result;
     }
 
+    private boolean AEstrella(PuzzleState init, PuzzleState goal){
+        ArrayList<PuzzleState> abiertos = new ArrayList<PuzzleState>();
+        ArrayList<PuzzleState> cerrados = new ArrayList<PuzzleState>();
+        abiertos.add(init);
+
+        while(true){
+            Collections.sort(abiertos);
+            if(abiertos.isEmpty()) // No se encontro respuesta.
+                return false;
+            PuzzleState aux = abiertos.get(0);
+            abiertos.remove(0);
+            cerrados.add(aux);
+            if(aux.equals(goal)){
+                return true;
+            }
+            
+        }
+
+    }
 
     private String stackToString(boolean found, PuzzleState origin, PuzzleState destiny, Stack<PuzzleState> stack){
         String result = origin.toString() + "\n";
