@@ -45,21 +45,21 @@ public class Puzzle {
         System.out.println("Time: " + timeExec + " ms");
         */
 
-        BFS(puzzleStart, puzzleFinish);
+        // BFS(puzzleStart, puzzleFinish);
 
-//        ArrayList<PuzzleState> frontera = new ArrayList<PuzzleState>();
-//        frontera.add(puzzleStart);
-//        ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
-//        visitados.add(puzzleStart);
-//
-//        PuzzleState end = BFS2(frontera, visitados, puzzleFinish);
-//
-//        if(end == null)
-//            System.out.println("No se encontro solucion");
-//        while(end != null){
-//            System.out.println(end.toString());
-//            end = end.getFather();
-//        }
+        ArrayList<PuzzleState> frontera = new ArrayList<PuzzleState>();
+        frontera.add(puzzleStart);
+        ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
+        //visitados.add(puzzleStart);
+
+        PuzzleState end = BFS2(frontera, visitados, puzzleFinish);
+
+        if(end == null)
+            System.out.println("No se encontro solucion");
+        while(end != null){
+            System.out.println(end.toString());
+            end = end.getFather();
+        }
     }
 
     public PuzzleState BFS2(ArrayList<PuzzleState> frontera,ArrayList<PuzzleState> visitados, PuzzleState meta){
@@ -69,13 +69,14 @@ public class Puzzle {
         }
         PuzzleState first = frontera.get(0);
         frontera.remove(0);
+        visitados.add(first);
         if(first.equals(meta)){
             // Si se encontro solucion;
             return first;
         }
         ArrayList<PuzzleState> nodos = first.nextMoves();
         for (PuzzleState ps: nodos)
-            if(!visitados.contains(ps))
+            if(!visitados.contains(ps) && !frontera.contains(ps))
                 frontera.add(ps);
         return BFS2(frontera,visitados, meta);
     }
@@ -96,7 +97,7 @@ public class Puzzle {
             }
             ArrayList<PuzzleState> sons = tmp.nextMoves();
             for (PuzzleState ps: sons){
-                if(!visitados.contains(ps.toString())){
+                if(!visitados.contains(ps)){
                     cola.add(ps);
                     visitados.add(ps);
                 }
