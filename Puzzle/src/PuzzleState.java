@@ -23,6 +23,14 @@ public class PuzzleState implements Comparable{
         }
     }
 
+    public PuzzleState getFather() {
+        return father;
+    }
+
+    public void setFather(PuzzleState father) {
+        this.father = father;
+    }
+
     public ArrayList<String> getState() {
         return state;
     }
