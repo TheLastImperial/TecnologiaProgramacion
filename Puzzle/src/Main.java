@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String []args){
@@ -14,14 +13,14 @@ public class Main {
         lines.remove(0);
         lines.remove(0);
         lines.remove(0);
-        puzzle.play(lines.get(1), lines.get(0));
+        // puzzle.play(lines.get(1), lines.get(0));
 
-        /*
         for (int i = 0; i < nGames; i++){
+            if(lines.size() == 0 || lines.size() % 2 != 0)
+                break;
             puzzle.play(lines.get(0), lines.get(1));
             lines.remove(0);
-            lines.remove(1);
+            lines.remove(0);
         }
-        */
     }
 }

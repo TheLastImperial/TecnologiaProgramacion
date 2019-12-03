@@ -1,9 +1,4 @@
-import com.sun.source.tree.ArrayAccessTree;
-
-import java.lang.reflect.Array;
-import java.time.temporal.TemporalField;
 import java.util.*;
-import java.time.LocalDate;
 
 public class Puzzle {
     private String delimiter;
@@ -25,44 +20,19 @@ public class Puzzle {
                 null
         );
 
-        /*
-        Stack<PuzzleState> stack = new Stack<PuzzleState>();
-        // stack.push(puzzleStart);
         long startTime = System.currentTimeMillis();
-        boolean isAWay = DFS(puzzleStart, puzzleFinish, new ArrayList<PuzzleState>(), stack);
+        ArrayList<PuzzleState> lista = BFS(puzzleStart, puzzleFinish);
         long endTime = System.currentTimeMillis();
-        int movimientos = stack.size();
-        String result = stackToString(isAWay, puzzleStart, puzzleFinish, stack);
-
-        long timeExec = (endTime - startTime)/1000000;
-
-        if(isAWay)
-            System.out.println("Se encontro resultado");
-        else
-            System.out.println("No se encontro resultado");
-        System.out.println(result);
-        System.out.println("Movimientos: " + movimientos);
+        long timeExec = (endTime - startTime);
         System.out.println("Time: " + timeExec + " ms");
-        */
-
-        // BFS(puzzleStart, puzzleFinish);
-
-        ArrayList<PuzzleState> frontera = new ArrayList<PuzzleState>();
-        frontera.add(puzzleStart);
-        ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
-        //visitados.add(puzzleStart);
-
-        PuzzleState end = BFS2(frontera, visitados, puzzleFinish);
-
-        if(end == null)
-            System.out.println("No se encontro solucion");
-        while(end != null){
-            System.out.println(end.toString());
-            end = end.getFather();
+        System.out.println("Movimientos: " + lista.size());
+        for (PuzzleState ps: lista) {
+            System.out.println(ps.prettyString());
         }
+
     }
 
-    public PuzzleState BFS2(ArrayList<PuzzleState> frontera,ArrayList<PuzzleState> visitados, PuzzleState meta){
+    public PuzzleState BFS2(ArrayList<PuzzleState> frontera, ArrayList<PuzzleState> visitados, PuzzleState meta){
         if(frontera.isEmpty()){
             // No se encontro solucion
             return null;
@@ -81,13 +51,11 @@ public class Puzzle {
         return BFS2(frontera,visitados, meta);
     }
 
-    public void BFS(PuzzleState origin, PuzzleState destiny){
+    public ArrayList<PuzzleState> BFS(PuzzleState origin, PuzzleState destiny){
         ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
-        // HashMap<String, PuzzleState> visitados = new HashMap<String, PuzzleState>();
         Queue<PuzzleState> cola = new LinkedList<PuzzleState>();
         cola.add(origin);
         visitados.add(origin);
-        //visitados.put(origin.toString(), origin);
         PuzzleState resp = null;
         while(!cola.isEmpty()){
             PuzzleState tmp = cola.poll();
@@ -103,78 +71,13 @@ public class Puzzle {
                 }
             }
         }
+        ArrayList<PuzzleState> result = new ArrayList<PuzzleState>();
         while(resp != null){
-            System.out.println(resp);
+            result.add(resp);
             resp = resp.getFather();
         }
-    }
-
-    public boolean DFS(PuzzleState origin, PuzzleState destiny, ArrayList<PuzzleState> visited, Stack<PuzzleState> stack){
-        visited.add(origin);
-        boolean result = false;
-        if(origin.equals(destiny)){
-            return true;
-        }
-        ArrayList<PuzzleState> nodes = origin.nextMoves();
-        if(nodes.isEmpty())
-            return false;
-        for (PuzzleState node: nodes) {
-            if(!visited.contains(node)){
-                result = DFS(node, destiny, visited, stack);
-                if(result){
-                    stack.push(node);
-                    return true;
-                }
-            }
-        }
+        Collections.reverse(result);
         return result;
     }
 
-    private boolean AEstrella(PuzzleState init, PuzzleState goal){
-        ArrayList<PuzzleState> abiertos = new ArrayList<PuzzleState>();
-        ArrayList<PuzzleState> cerrados = new ArrayList<PuzzleState>();
-        abiertos.add(init);
-        while(true){
-            Collections.sort(abiertos);
-            if(abiertos.isEmpty()) // No se encontro respuesta.
-                break;
-            PuzzleState current = abiertos.get(0);
-            abiertos.remove(0);
-            cerrados.add(current);
-            if(current.equals(goal))
-                break;
-
-            ArrayList<PuzzleState> tempNexts = current.nextMoves();
-            for (PuzzleState ps: tempNexts){
-                if(abiertos.contains(ps)){
-                    // Recalcular el valor de ps
-
-                }else if(cerrados.contains(ps)){
-                    abiertos.add(ps);
-                }
-            }
-        }
-        return true;
-    }
-
-    private PuzzleState getPS(ArrayList<PuzzleState> puzzles, PuzzleState search){
-        for (PuzzleState ps: puzzles) {
-            if(ps.equals(search)){
-                return ps;
-            }
-        }
-        return null;
-    }
-
-    private String stackToString(boolean found, PuzzleState origin, PuzzleState destiny, Stack<PuzzleState> stack){
-        String result = origin.toString() + "\n";
-        while(found && !stack.isEmpty()){
-            result += stack.pop().toString() + "\n";
-        }
-        return result;
-    }
-
-    public boolean isValid(String str){
-        return str.split(this.delimiter).length != (this.size * this.size);
-    }
 }

@@ -60,6 +60,18 @@ public class PuzzleState implements Comparable{
         return String.join("", state);
     }
 
+    public String prettyString(){
+        String result = "";
+        for(int i = 0; i< state.size(); i++){
+            result += state.get(i);
+            if(((i + 1) %size) == 0)
+                result += "\n";
+            else
+                result += ",";
+        }
+        return result;
+    }
+
     public String toString(String delimiter){
         return String.join(delimiter, state);
     }
