@@ -29,7 +29,9 @@ public class Puzzle {
         for (PuzzleState ps: lista) {
             System.out.println(ps.prettyString());
         }
+        System.out.println(puzzleStart.compareTo(puzzleFinish));
 
+        System.out.println(puzzleStart.compareTo(delimiter));
     }
 
     public PuzzleState BFS2(ArrayList<PuzzleState> frontera, ArrayList<PuzzleState> visitados, PuzzleState meta){
@@ -55,10 +57,10 @@ public class Puzzle {
         ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
         Queue<PuzzleState> cola = new LinkedList<PuzzleState>();
         cola.add(origin);
-        visitados.add(origin);
         PuzzleState resp = null;
         while(!cola.isEmpty()){
             PuzzleState tmp = cola.poll();
+            visitados.add(tmp);
             if(tmp.equals(destiny)){
                 resp = tmp;
                 break;
@@ -67,7 +69,6 @@ public class Puzzle {
             for (PuzzleState ps: sons){
                 if(!visitados.contains(ps)){
                     cola.add(ps);
-                    visitados.add(ps);
                 }
             }
         }

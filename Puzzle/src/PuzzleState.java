@@ -117,16 +117,17 @@ public class PuzzleState implements Comparable{
         return Objects.hash(this.toString());
     }
 
+    public int compareTo(PuzzleState o) {
+        int result = 0;
+        if(o.getH() > this.getH())
+            result = -1;
+        if(o.getH() < this.getH())
+            result = 1;
+        return result;
+    }
+
     @Override
     public int compareTo(Object o) {
-        int result = 0;
-        if (this == o) return -1;
-        if (o == null || getClass() != o.getClass()) return -1;
-        PuzzleState that = (PuzzleState) o;
-        if(that.getF() > this.getF())
-            result = 1;
-        if(that.getF() < this.getF())
-            result = -1;
-        return result;
+        return 0;
     }
 }
