@@ -39,11 +39,12 @@ public class JCell extends JButton implements ActionListener {
             setBackground(null);
             setText("");
         } else{
-            if(bomb)
+            if(bomb){
                 setBackground(Color.RED);
-            else
+            }
+            else{
                 setBackground(Color.BLUE);
-
+            }
             if(bombCounter > 0)
                 setText(bombCounter + "");
         }
@@ -64,7 +65,8 @@ public class JCell extends JButton implements ActionListener {
            return;
         if(bomb){
             setHiden(false);
-            JOptionPane.showMessageDialog(null, "Encontraste una bomba. Fin del juego.");
+            JOptionPane.showMessageDialog(null, "Encontraste una bomba.");
+            father.getFather().endGame();
         } else{
             father.showCell(i, j);
         }

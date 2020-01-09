@@ -46,6 +46,7 @@ public class Minesweeper extends JPanel {
             return;
         cells[i][j].setHiden(false);
         this.discovered++;
+        father.refreshPoints();
         if(this.discovered + this.bombs == Math.pow(this.len, 2)){
             this.father.endGame();
             return;
@@ -118,5 +119,13 @@ public class Minesweeper extends JPanel {
 
     public int getBombs() {
         return bombs;
+    }
+
+    public int getDiscovered() {
+        return discovered;
+    }
+
+    public MainFrame getFather() {
+        return father;
     }
 }

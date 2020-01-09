@@ -49,7 +49,7 @@ public class MainFrame extends JFrame implements ActionListener {
         try{
             rows = Integer.parseInt(txtRows.getText());
         }catch(Exception e){
-            lbl.setText("Debe ingresar solo numeros");
+            JOptionPane.showMessageDialog(null, "Debe ingresar solo numeros.");
             return;
         }
         int bombs = (int)((cbLevel.getSelectedIndex() + 1) * (0.25) * Math.pow(rows, 2));
@@ -63,12 +63,15 @@ public class MainFrame extends JFrame implements ActionListener {
     }
 
     public void endGame(){
-        int points = ((int)Math.pow(table.getLen(), 2) - table.getBombs()) * (this.cbLevel.getSelectedIndex() + 1);
-        JOptionPane.showMessageDialog(null, "Felicidades has terminado el juego. Tus puntos son: " + points);
+        JOptionPane.showMessageDialog(null, "El juego ha terminado. ");
         this.remove(table);
         table = null;
         revalidate();
         repaint();
+    }
+
+    public void refreshPoints(){
+        this.lbl.setText( "Puntos: " + table.getDiscovered() * (this.cbLevel.getSelectedIndex() + 1));
     }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
