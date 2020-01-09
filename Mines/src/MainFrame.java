@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame implements ActionListener {
-    private Table table;
+    private Minesweeper table;
     private JPanel pOpts;
-    JTextField txtRows;
-    JComboBox cbLevel;
-    JButton btnCreate;
-    JButton btnStart;
-    JLabel lbl;
+    private JTextField txtRows;
+    private JComboBox cbLevel;
+    private JButton btnCreate;
+    private JButton btnStart;
+    private JLabel lbl;
     public MainFrame(){
         super("Minesweeper");
         this.setSize(600,400);
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame implements ActionListener {
         }
         int bombs = (int)((cbLevel.getSelectedIndex() + 1) * (0.25) * Math.pow(rows, 2));
         // Tablero de juego
-        table = new Table(rows, (int)bombs);
+        table = new Minesweeper(this, rows, (int)bombs);
         table.showCells();
         table.setBounds(0, 50, 600, 320);
         this.add(table);
@@ -62,6 +62,14 @@ public class MainFrame extends JFrame implements ActionListener {
         repaint();
     }
 
+    public void endGame(){
+        int points = ((int)Math.pow(table.getLen(), 2) - table.getBombs()) * (this.cbLevel.getSelectedIndex() + 1);
+        JOptionPane.showMessageDialog(null, "Felicidades has terminado el juego. Tus puntos son: " + points);
+        this.remove(table);
+        table = null;
+        revalidate();
+        repaint();
+    }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == btnCreate){
