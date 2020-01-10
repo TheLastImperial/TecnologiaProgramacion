@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
-public class PuzzleState implements Comparable{
+public class PuzzleState implements Comparable<PuzzleState> {
     private ArrayList<String> state;
     private PuzzleState father;
     private PuzzleState goal;
@@ -15,6 +16,8 @@ public class PuzzleState implements Comparable{
         this.father = father;
         this.goal = goal;
         this.h = 0;
+        if(this.goal != null)
+            setH();
         if(father == null){
             this.g = 0;
         }else{
@@ -46,14 +49,19 @@ public class PuzzleState implements Comparable{
     public int getH() {
         return h;
     }
+
     public int getF(){
         return this.g + this.h;
     }
 
     public void setH() {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++){
+            String a = this.state.get(i);
+            String b = this.goal.getState().get(i);
             if(!this.state.get(i).equals(this.goal.getState().get(i)))
                 this.h ++;
+        }
+
     }
 
     public String toString(){
@@ -104,6 +112,7 @@ public class PuzzleState implements Comparable{
         newState.set((iZero * size) + jZero, aux);
         return new PuzzleState(newState, this.goal,this);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,17 +126,8 @@ public class PuzzleState implements Comparable{
         return Objects.hash(this.toString());
     }
 
-    public int compareTo(PuzzleState o) {
-        int result = 0;
-        if(o.getH() > this.getH())
-            result = -1;
-        if(o.getH() < this.getH())
-            result = 1;
-        return result;
-    }
-
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public int compareTo(PuzzleState puzzleState) {
+        return this.getH() - puzzleState.getH();
     }
 }
