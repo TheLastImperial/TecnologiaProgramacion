@@ -78,6 +78,7 @@ public class MainFrame extends JFrame implements ActionListener {
         if(actionEvent.getSource() == btnCreate){
             createPanel();
         }else if(actionEvent.getSource() == btnStart){
+            lbl.setText("");
             table.startGame();
         }
     }
