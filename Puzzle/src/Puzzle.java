@@ -25,7 +25,7 @@ public class Puzzle {
         long endTime = System.currentTimeMillis();
         long timeExec = (endTime - startTime);
         System.out.println("Time: " + timeExec + " ms");
-        System.out.println("Movimientos: " + lista.size());
+        System.out.println("Movimientos: " + (lista.size() - 1));
         for (PuzzleState ps: lista) {
             System.out.println(ps.prettyString());
         }
