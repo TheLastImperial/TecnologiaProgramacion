@@ -44,6 +44,33 @@ public class Tree {
         return sum(root, 0) / size();
     }
 
+    public int max(){
+        return max(root);
+    }
+
+    private int father(int dato){
+        return father(root, dato);
+    }
+
+    private int father(Node node, int dato){
+        if(node == null)
+            return 0;
+        if(node.left.dato == dato || node.right.dato == dato)
+            return node.dato;
+        if(dato <= node.dato)
+            return father(node.left, dato);
+        else
+            return father(node.right, dato);
+    }
+
+    private int max(Node node){
+        if(node  == null )
+            return 0;
+        if(node.right == null)
+            return node.dato;
+        return max(node.right);
+    }
+
     private int sum(Node node, int sum){
         return sum + node.dato + sum(node.left, 0) + sum(node.right, 0);
     }
