@@ -12,12 +12,12 @@ public class Main {
         Puzzle puzzle = new Puzzle(delimiter, size);
         lines.remove(0);
         lines.remove(0);
-        lines.remove(0);
         // puzzle.play(lines.get(1), lines.get(0));
 
         for (int i = 0; i < nGames; i++){
-            if(lines.size() == 0 || lines.size() % 2 != 0)
+            if(lines.size() == 0 || lines.size() % 3 != 0)
                 break;
+            lines.remove(0);
             puzzle.play(lines.get(0), lines.get(1));
             lines.remove(0);
             lines.remove(0);

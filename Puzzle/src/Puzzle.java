@@ -26,9 +26,9 @@ public class Puzzle {
         long timeExec = (endTime - startTime);
         System.out.println("Time: " + timeExec + " ms");
         System.out.println("Movimientos: " + (lista.size() - 1));
-        for (PuzzleState ps: lista) {
+        /*for (PuzzleState ps: lista) {
             System.out.println(ps.prettyString());
-        }
+        }*/
     }
 
     public PuzzleState BFS2(ArrayList<PuzzleState> frontera, ArrayList<PuzzleState> visitados, PuzzleState meta){
