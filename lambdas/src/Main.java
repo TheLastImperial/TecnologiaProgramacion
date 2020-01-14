@@ -11,9 +11,9 @@ public class Main {
     }
 
     public static void createAuthors(ArrayList<String> input) {
-
         conacyt.addInstitute(new Institute(input.get(0)));
         Institute institute = conacyt.lastInstitution();
+        Author authorAux;
         for (int i = 1; i < input.size(); i += 2) {
             if (i + 1 >= input.size())
                 break;
@@ -24,7 +24,13 @@ public class Main {
                 institute = conacyt.lastInstitution();
                 i += 2;
             }
-            institute.addAuthor(new Author(input.get(i), input.get(i + 1)));
+            authorAux = new Author(input.get(i), input.get(i + 1));
+            conacyt.addAuthor(authorAux);
+            institute.addAuthor(authorAux);
         }
+    }
+
+    public static void createArticules(ArrayList<String> input){
+
     }
 }
