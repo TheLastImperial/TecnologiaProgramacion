@@ -55,11 +55,13 @@ public class PuzzleState implements Comparable<PuzzleState> {
     }
 
     public void setH() {
-        for (int i = 0; i < size; i++){
+        if(this.h > 0)
+            return;
+        for (int i = 0; i < this.state.size(); i++){
             String a = this.state.get(i);
             String b = this.goal.getState().get(i);
             if(!this.state.get(i).equals(this.goal.getState().get(i)))
-                this.h ++;
+                this.h+= 1;
         }
 
     }

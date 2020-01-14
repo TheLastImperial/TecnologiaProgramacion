@@ -52,7 +52,6 @@ public class Puzzle {
 
     public ArrayList<PuzzleState> BFS(PuzzleState origin, PuzzleState destiny){
         ArrayList<PuzzleState> visitados = new ArrayList<PuzzleState>();
-        // Queue<PuzzleState> cola = new LinkedList<PuzzleState>();
         ArrayList<PuzzleState> cola = new ArrayList<PuzzleState>();
         cola.add(origin);
         PuzzleState resp = null;
