@@ -24,19 +24,19 @@ public class MainFrame extends JFrame {
                 this.add(buttons[i][j]);
             }
     }
-    private void fillHadamard (JButton[][] btns, int top, int left, int size, boolean flag)
+    private void fillHadamard (JButton[][] btns, int x, int y, int size, boolean flag)
     {
         if (size == 1)
             if(flag)
-                btns[top][left].setBackground(Color.BLUE);
+                btns[x][y].setBackground(Color.BLUE);
             else
-                btns[top][left].setBackground(Color.RED);
+                btns[x][y].setBackground(Color.RED);
         else
         {
-            fillHadamard (btns, top, left, size/2, flag);
-            fillHadamard (btns, top+size/2, left, size/2, flag);
-            fillHadamard (btns, top, left+size/2, size/2, flag);
-            fillHadamard (btns, top+size/2, left+size/2, size/2, !flag);
+            fillHadamard (btns, x, y, size/2, flag);
+            fillHadamard (btns, x+size/2, y, size/2, flag);
+            fillHadamard (btns, x, y+size/2, size/2, flag);
+            fillHadamard (btns, x+size/2, y+size/2, size/2, !flag);
         }
     }
 }

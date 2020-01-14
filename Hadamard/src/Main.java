@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]){
         //int len = readInt();
-        new MainFrame((int)Math.pow(2, 3));
+        new MainFrame((int)Math.pow(2, 2));
     }
     public static int readInt(){
         Scanner scan = new Scanner(System.in);
