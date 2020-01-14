@@ -5,4 +5,7 @@ public class Node {
     public Node(int dato){
         this.dato = dato;
     }
+    public String toString(){
+        return dato + "";
+    }
 }

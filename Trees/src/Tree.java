@@ -15,8 +15,7 @@ public class Tree {
     }
 
     public void insert(int n){
-        insert(root, n);
-
+        root = insert(root, n);
     }
 
     public int nSuns(Node node){
@@ -48,12 +47,12 @@ public class Tree {
         return max(root);
     }
 
-    private int father(int dato){
+    public int father(int dato){
         return father(root, dato);
     }
 
     private int father(Node node, int dato){
-        if(node == null)
+        if(node == null || node.dato == dato)
             return 0;
         if(node.left.dato == dato || node.right.dato == dato)
             return node.dato;
@@ -72,16 +71,20 @@ public class Tree {
     }
 
     private int sum(Node node, int sum){
+        if(node == null)
+            return 0;
         return sum + node.dato + sum(node.left, 0) + sum(node.right, 0);
     }
 
     private void genNodes(ArrayList<Node> nodes, Node node, int index, int gen) {
+        if(node == null)
+            return;
         if(index == gen){
             nodes.add(node);
             return;
         }
-        genNodes(nodes, node.left, index++, gen);
-        genNodes(nodes, node.right, index++, gen);
+        genNodes(nodes, node.left, index + 1, gen);
+        genNodes(nodes, node.right, index + 1, gen);
     }
 
     private Node search(Node node, int d){
@@ -105,7 +108,7 @@ public class Tree {
 
     private Node insert(Node node, int n){
         if(node == null){
-            node = new Node(n);
+            return new Node(n);
         }else{
             if(n <= node.dato)
                 node.left = insert(node.left, n);
