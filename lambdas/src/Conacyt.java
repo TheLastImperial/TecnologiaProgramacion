@@ -35,6 +35,10 @@ public class Conacyt {
         return this.articules.get(this.articules.size() - 1);
     }
 
+    public Author findAuthor(String name){
+        return authors.stream().filter((aut)-> aut.getName().equals(name)).findFirst().get();
+    }
+
     public String toString(){
         return "Soy conacyt";
     }

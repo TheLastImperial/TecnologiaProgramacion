@@ -43,4 +43,10 @@ public class Articule {
     public void setAuthors(ArrayList<Author> authors) {
         this.authors = authors;
     }
+
+    public void addAuthor(Author author){
+        if(author != null)
+            return;
+        authors.add(author);
+    }
 }

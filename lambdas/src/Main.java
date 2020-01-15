@@ -6,6 +6,9 @@ public class Main {
         String path = FileHelper.readPathFromUser("autores.txt");
         ArrayList<String> lines = FileHelper.getLines(path);
         createAuthors(lines);
+        path = FileHelper.readPathFromUser("articulos.txt");
+        lines = FileHelper.getLines(path);
+        createArticules(lines);
         System.out.println(conacyt);
         System.out.println("Hola mundo");
     }
@@ -31,6 +34,26 @@ public class Main {
     }
 
     public static void createArticules(ArrayList<String> input){
-
+        int nLines = Integer.parseInt(input.get(0));
+        input.remove(0);
+        input.remove(0);
+        Articule articule;
+        for (int i = 0; i < input.size(); i++){
+            String str = input.get(i);
+            if(str.isBlank())
+                continue;
+            conacyt.addArticule(new Articule(input.get(i), input.get(i + 1), input.get(i + 2)));
+            articule = conacyt.lastArticule();
+            i+=3;
+            String line = input.get(i);
+            do{
+                Author author = conacyt.findAuthor(line);
+                articule.addAuthor(author);
+                i++;
+                if(i >= input.size())
+                    break;
+                line = input.get(i);
+            }while(!line.isBlank());
+        }
     }
 }
