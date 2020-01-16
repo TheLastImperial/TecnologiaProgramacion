@@ -1,8 +1,34 @@
 import java.util.ArrayList;
+import SegundoIntento.*;
+import javafx.scene.control.Tab;
 
 public class Main {
     private static Conacyt conacyt = new Conacyt();
+    private static DB database = new DB();
     public static void main(String [] args){
+        segundoIntento();
+    }
+
+    private static void segundoIntento(){
+        String path = FileHelper.readPathFromUser("autores.txt");
+        ArrayList<String> lines = FileHelper.getLines(path);
+        createAuthors2(lines);
+        path = FileHelper.readPathFromUser("articulos.txt");
+        lines = FileHelper.getLines(path);
+        createArticules2(lines);
+        database.articulesByAuthor();
+        database.iDontUnderstand();
+        database.authorsByArticule();
+        database.articulesWithStProfInv();
+        database.articulesJustWithEst();
+        database.articulesJustWithProfInv();
+        database.articulesByType();
+        database.articulesByInstitute();
+        database.articulesByYear();
+        System.out.println("Hola mundo");
+    }
+
+    private static void primerIntento(){
         String path = FileHelper.readPathFromUser("autores.txt");
         ArrayList<String> lines = FileHelper.getLines(path);
         createAuthors(lines);
@@ -54,6 +80,76 @@ public class Main {
                     break;
                 line = input.get(i);
             }while(!line.isBlank());
+        }
+    }
+
+    public static void createAuthors2(ArrayList<String> input) {
+        String inst = input.get(0);
+        for (int i = 1; i < input.size(); i +=2) {
+            if(input.get(i).isBlank()){
+                if((i+ 1) >= input.size())
+                    return;
+                inst = input.get(i + 1);
+                continue;
+            }
+            Table tab = database.findByAuthor(input.get(i + 1), inst);
+            if(tab != null)
+                continue;
+            tab = new Table();
+            tab.instituteName = inst;
+            tab.authorType = input.get( i );
+            tab.authorName = input.get(i + 1);
+            database.getTable().add(tab);
+        }
+    }
+
+    public static void createArticules2(ArrayList<String> input){
+        int nLines = Integer.parseInt(input.get(0));
+        input.remove(0);
+        input.remove(0);
+        Articule articule;
+        for (int i = 0; i < input.size(); i++){
+            String artType = input.get(i);
+            if(artType.isBlank())
+                continue;
+            Table tab = new Table();
+            tab.articuleType = artType;
+            tab.publicationDate = input.get(i + 1);
+            tab.articuleTitle = input.get(i + 2);
+
+            i+=3;
+            String autName = input.get(i);
+            do{
+                Table aux = database.findArticule(tab.articuleTitle, autName);
+
+                // El autor ya tiene ese articulo asignado.
+                if(aux != null){
+                    i++;
+                    if(i >= input.size())
+                        break;
+                    autName = input.get(i);
+                    continue;
+                }
+                aux = database.findByAuthor(autName);
+                if(aux != null){
+                    if(aux.articuleTitle == null){
+                        aux.articuleType = tab.articuleType;
+                        aux.publicationDate = tab.publicationDate;
+                        aux.articuleTitle = tab.articuleTitle;
+
+                    }else{
+                        aux = aux.clone();
+                        aux.articuleType = tab.articuleType;
+                        aux.publicationDate = tab.publicationDate;
+                        aux.articuleTitle = tab.articuleTitle;
+                        database.getTable().add(aux);
+                    }
+                }
+                i++;
+                if(i >= input.size())
+                    break;
+                autName = input.get(i);
+            }while(!autName.isBlank());
         }
     }
 }
