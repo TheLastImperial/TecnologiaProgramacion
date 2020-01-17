@@ -23,6 +23,19 @@ public class Recursion {
         return fibonacci(n-1) + fibonacci(n - 2);
     }
 
+    public static int mcd(int input){
+        return mcd(input, 2);
+    }
+
+    private static int mcd(int input, int div){
+        if(div >= input)
+            return 1;
+        if(input % div == 0)
+            return div;
+        return mcd(input, div + 1);
+
+    }
+
     public static int sumArray(int arr[], int index){
         if(index >= arr.length)
             return 0;

@@ -10,7 +10,8 @@ public class Main {
         //System.out.println("Suma array: " + Recursion.decimalToBase(7,2));
         //System.out.println("Suma array: " + Recursion.baseToDecimal("FF",16, 0));
         //System.out.println("Suma array: " + Recursion.hamming("Rafa", "Ra5ael"));
-        System.out.println("Suma array: " + Recursion.grayCode(2));
+        // System.out.println("Suma array: " + Recursion.grayCode(2));
+        System.out.println("Suma array: " + Recursion.mcd(6));
 
     }
 }
