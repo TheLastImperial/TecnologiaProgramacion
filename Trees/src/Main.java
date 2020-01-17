@@ -15,6 +15,11 @@ public class Main {
         System.out.println(tr.size());
         System.out.println(tr.avg());
         System.out.println("Hola");
+        tr.insert(200);
+        tr.insert(100);
+        tr.insert(300);
         System.out.println(tr.genNodes(1));
+        tr.delete(5);
+        System.out.println("Hola");
     }
 }
