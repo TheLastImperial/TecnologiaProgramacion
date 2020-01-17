@@ -1,0 +1,15 @@
+Colegio Hogwarts de Magia y Hechicería
+prof
+Dolores Umbridge
+prof
+Severus Snape
+est
+Harry Potter
+est
+Hermione Granger
+
+Instituto tecnologico de culiacan
+prof
+Maria lucia
+prof
+Ramon ZataraIn
