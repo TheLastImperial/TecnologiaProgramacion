@@ -1,9 +1,8 @@
 package SegundoIntento;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import javafx.util.Pair;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -171,5 +170,27 @@ public class DB {
             .forEach((year, counter)->{
                 System.out.println( year + " " + counter);
             });
+    }
+    public void distanceAuthorsForInstitute(){
+        Map<String, Long> instCounter =  this.table
+            .stream()
+            .filter((tab)-> {
+                return tab.articuleTitle != null && tab.authorName != null;
+            })
+            .filter(distinctByKey(Table::getArticuleTitle))
+        .collect(Collectors.groupingBy(Table::getInstituteName, Collectors.counting()));
+
+        Map<String, Long> authorsCounter = this.table.stream()
+            .filter((tab)->{
+                return tab.articuleTitle != null && tab.authorName != null;
+            })
+            .filter(distinctByKey(Table::getAuthorName))
+            .collect(Collectors.groupingBy(Table::getAuthorName, Collectors.counting()));
+
+        this.table.stream()
+            .filter((tab)->{
+                return tab.articuleTitle != null && tab.authorName != null;
+            })
+            .filter(distinctByKey(Table::getAuthorName));
     }
 }
