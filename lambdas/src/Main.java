@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 import SegundoIntento.*;
-import javafx.scene.control.Tab;
 
 public class Main {
     private static Conacyt conacyt = new Conacyt();
     private static DB database = new DB();
     public static void main(String [] args){
-        segundoIntento();
+        primerIntento();
     }
 
     private static void segundoIntento(){
@@ -35,6 +34,13 @@ public class Main {
         path = FileHelper.readPathFromUser("articulos.txt");
         lines = FileHelper.getLines(path);
         createArticules(lines);
+        conacyt.articulesByAuthor();
+        conacyt.authorsByArticule();
+        conacyt.articulesWithStProfInv();
+        conacyt.articulesJustWithEst();
+        conacyt.articulesJustWithProfInv();
+        conacyt.articulesByType();
+        conacyt.articulesByInstitute();
         System.out.println(conacyt);
         System.out.println("Hola mundo");
     }

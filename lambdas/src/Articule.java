@@ -10,6 +10,7 @@ public class Articule {
         this.articuleType = articuleType;
         this.publicationDate = publicationDate;
         this.title = title;
+        this.authors = new ArrayList<Author>();
     }
 
     public String getArticuleType() {
@@ -45,7 +46,7 @@ public class Articule {
     }
 
     public void addAuthor(Author author){
-        if(author != null)
+        if(author == null)
             return;
         authors.add(author);
     }
