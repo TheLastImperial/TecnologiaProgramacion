@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class Tree {
-    private Node root;
+public class Tree<T extends Number> {
+    private Node<T> root;
     public Tree(){
         this.root = null;
     }
 
-    public boolean search(int d){
+    public boolean search(T d){
         return search(root, d) != null;
     }
 
@@ -14,7 +14,7 @@ public class Tree {
         return size(root);
     }
 
-    public void insert(int n){
+    public void insert(T n){
         root = insert(root, n);
     }
 
@@ -24,8 +24,8 @@ public class Tree {
 
     public int[] balance(Node node){
         return new int[]{
-            size(node.left),
-            size(node.right)
+            size(node.getLeft()),
+            size(node.getRight())
         };
     }
 
@@ -35,7 +35,7 @@ public class Tree {
         return result;
     }
 
-    public int sum(){
+    public double sum(){
         return sum(root, 0);
     }
 
@@ -43,11 +43,11 @@ public class Tree {
         return sum(root, 0) / size();
     }
 
-    public int max(){
+    public T max(){
         return max(root);
     }
 
-    public int father(int dato){
+    public T father(T dato){
         return father(root, dato);
     }
 
@@ -58,9 +58,9 @@ public class Tree {
 
     private void inorden(Node n){
         if(n != null){
-            inorden(n.left);
-            System.out.println(n.dato);
-            inorden(n.right);
+            inorden(n.getLeft());
+            System.out.println(n.getValue());
+            inorden(n.getRight());
         }
     }
 
@@ -71,9 +71,9 @@ public class Tree {
 
     private void preorden(Node n){
         if( n != null){
-            System.out.println(root.dato);
-            preorden(n.left);
-            preorden(n.right);
+            System.out.println(root.getValue());
+            preorden(n.getLeft());
+            preorden(n.getRight());
         }
     }
 
@@ -84,92 +84,95 @@ public class Tree {
 
     public void postorden(Node n){
         if(n != null){
-            postorden(n.left);
-            postorden(n.right);
-            System.out.println(n.dato);
+            postorden(n.getLeft());
+            postorden(n.getRight());
+            System.out.println(n.getValue());
         }
     }
 
-    public void delete(int dato){
+    public void delete(T dato){
         delete(root, null, dato);
     }
 
-    private void delete(Node node, Node father, int dato){
+    private void delete(Node node, Node father, T dato){
         if(node == null)
             return;
-        if(node.dato != dato){
-            if(dato <= node.dato)
-                delete(node.left, node, dato);
+        if(node.getValue() != dato){
+            if(dato.doubleValue() <= node.getValue().doubleValue())
+                delete(node.getLeft(), node, dato);
             else
-                delete(node.right, node, dato);
-        }else if(node.dato == dato){
+                delete(node.getRight(), node, dato);
+        }else if(node.getValue().doubleValue() == dato.doubleValue()){
             // Caso en que es una hoja
-            if(node.left == null && node.right == null){
-                if(father.left != null && father.left == node)
-                    father.left = null;
+            if(node.getLeft() == null && node.getRight() == null){
+                if(father.getLeft() != null && father.getLeft() == node)
+                    father.setLeft(null);
                 else
-                    father.right = null;
+                    father.setRight(null);
             // Caso en que el nodo tiene ambos nodos izquierdo y derecho.
-            }else if(node.right != null && node.left != null){
-                Node aux = node.right;
+            }else if(node.getRight() != null && node.getLeft() != null){
+                Node aux = node.getRight();
                 Node auxF = node;
-                while(aux.left != null){
+                while(aux.getLeft() != null){
                     auxF = aux;
-                    aux = auxF.left;
+                    aux = auxF.getLeft();
                 }
                 if(father != null){
-                    aux.left = node.left;
-                    if(father.left == node){
-                        father.left = aux;
+                    aux.setLeft(node.getLeft());
+                    if(father.getLeft().getValue().doubleValue() == node.getValue().doubleValue()){
+                        father.setLeft(aux);
                     }
                     else{
-                        father.right = aux;
+                        father.setRight(aux);
                     }
                 } else{
-                    aux.left = node.left;
+                    aux.setLeft(node.getLeft());
                     root = aux;
                 }
-                auxF.left = null;
+                auxF.setLeft(null);
             // Caso en que solo tiene una hoja.
             }else{
-                if(node.left == null){
-                    if(father.left.dato == node.dato)
-                        father.left = node.right;
+                if(node.getLeft() == null){
+                    if(father.getLeft().getValue().doubleValue() == node.getValue().doubleValue())
+                        father.setLeft(node.getRight());
                     else
-                        father.right = node.right;
+                        father.setRight(node.getRight());
                 }else{
-                    if(father.left.dato == node.dato)
-                        father.left = node.left;
+                    if(father.getLeft().getValue().doubleValue() == node.getValue().doubleValue())
+                        father.setLeft(node.getLeft());
                     else
-                        father.right = node.left;
+                        father.setRight(node.getLeft());
                 }
             }
         }
     }
 
-    private int father(Node node, int dato){
-        if(node == null || node.dato == dato)
-            return 0;
-        if(node.left.dato == dato || node.right.dato == dato)
-            return node.dato;
-        if(dato <= node.dato)
-            return father(node.left, dato);
+    private T father(Node node, T dato){
+        if(node.getLeft().getValue().doubleValue() == dato.doubleValue()
+            || node.getRight().getValue().doubleValue() == dato.doubleValue()) {
+            if(node == null)
+                return (T) coalesce(null, 0);
+            return (T) node.getValue();
+        }
+        if(dato.doubleValue() <= node.getValue().doubleValue())
+            return father(node.getLeft(), dato);
         else
-            return father(node.right, dato);
+            return father(node.getRight(), dato);
     }
 
-    private int max(Node node){
+    private T max(Node node){
         if(node  == null )
-            return 0;
-        if(node.right == null)
-            return node.dato;
-        return max(node.right);
+            return (T) coalesce(null, 0);
+        if(node.getRight() == null)
+            return (T) node.getValue();
+        return max(node.getRight());
     }
 
-    private int sum(Node node, int sum){
+    private Double sum(Node node, Number sum){
         if(node == null)
-            return 0;
-        return sum + node.dato + sum(node.left, 0) + sum(node.right, 0);
+            return coalesce(null, 0).doubleValue();
+        return sum.doubleValue() + node.getValue().doubleValue()
+            + sum(node.getLeft(), 0) + sum(node.getRight(), 0);
     }
 
     private void genNodes(ArrayList<Node> nodes, Node node, int index, int gen) {
@@ -179,38 +182,42 @@ public class Tree {
             nodes.add(node);
             return;
         }
-        genNodes(nodes, node.left, index + 1, gen);
-        genNodes(nodes, node.right, index + 1, gen);
+        genNodes(nodes, node.getLeft(), index + 1, gen);
+        genNodes(nodes, node.getRight(), index + 1, gen);
     }
 
-    private Node search(Node node, int d){
+    private Node search(Node node, T d){
         if (node==null)
             return null;
-        if (d == node.dato)
+        if (d.doubleValue() == node.getValue().doubleValue())
             return node;
         else
-            if (d<node.dato)
-                return search(node.left, d);
+            if (d.doubleValue() <node.getValue().doubleValue())
+                return search(node.getLeft(), d);
             else
-                return search(node.right, d);
+                return search(node.getRight(), d);
     }
 
     private int size(Node node){
         if(node == null)
             return 0;
         else
-            return 1 + size(node.left) + size(node.right);
+            return 1 + size(node.getLeft()) + size(node.getRight());
     }
 
-    private Node insert(Node node, int n){
+    private Node insert(Node node, T value){
         if(node == null){
-            return new Node(n);
+            return new Node(value);
         }else{
-            if(n <= node.dato)
-                node.left = insert(node.left, n);
+            if(node.getValue().doubleValue() <= value.doubleValue())
+                node.setLeft(insert(node.getLeft(), value));
             else
-                node.right = insert(node.right, n);
+                node.setRight(insert(node.getRight(), value));
         }
         return node;
+    }
+
+    private <T extends Number> T coalesce(T a, T b){
+        return a == null ? b : a;
     }
 }
